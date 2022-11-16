@@ -55,9 +55,9 @@ class FriendsListViewModel: NSObject, ObservableObject {
         }
     }
     
-    func addFriend(_ uuid: UUID, name: String) {
+    func addFriend(_ uuid: UUID, name: String, device: Device) {
         guard friendsManager.friend(for: uuid) == nil else { return }
-        friendsManager.addFriend(for: uuid, with: name)
+        friendsManager.addFriend(for: uuid, with: name, and: device)
         reload()
     }
 }
@@ -115,7 +115,7 @@ struct FriendsList: View {
         }
         .alert(isPresented: $showingAddDialog, TextAlert(title: "What's their name?", action: {
             guard let addDialogID = addDialogID, let name = $0 else { return }
-            viewModel.addFriend(addDialogID, name: name)
+            viewModel.addFriend(addDialogID, name: name, device: .init(id: addDialogID))
         }))
         .toolbar {
             Button {

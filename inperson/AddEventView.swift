@@ -12,7 +12,7 @@ struct AddEventsView: View {
     @State var title: String = ""
     @State var date: Date = .now
     
-    let onDone: (Event) -> Void
+    let onDone: ((String, Date)) -> Void
     
     var body: some View {
         NavigationView {
@@ -21,7 +21,7 @@ struct AddEventsView: View {
                     .padding(.top, 20)
                 DatePicker("Date", selection: $date).font(.largeTitle)
                 Button("Add") {
-                    onDone(.init(title: title, date: date, lastUpdate: .now))
+                    onDone((title, date))
                 }
                 .font(.largeTitle)
                 .padding(.top, 40)

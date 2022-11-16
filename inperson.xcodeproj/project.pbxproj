@@ -71,6 +71,7 @@
 		110C04D22923795C00DCEDA3 /* TextFieldAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldAlert.swift; sourceTree = "<group>"; };
 		110C04D529237E0600DCEDA3 /* AddEventView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddEventView.swift; sourceTree = "<group>"; };
 		110C04D7292393F000DCEDA3 /* DebugView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugView.swift; sourceTree = "<group>"; };
+		11310892292482C3005BD485 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -122,6 +123,7 @@
 		110C048929231F0D00DCEDA3 /* inperson */ = {
 			isa = PBXGroup;
 			children = (
+				11310892292482C3005BD485 /* Info.plist */,
 				110C048A29231F0D00DCEDA3 /* inpersonApp.swift */,
 				110C04C0292326D300DCEDA3 /* User Defaults */,
 				110C048C29231F0D00DCEDA3 /* FriendsList.swift */,
@@ -496,6 +498,7 @@
 				DEVELOPMENT_TEAM = 6CW3378X23;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = inperson/Info.plist;
 				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = Yeah;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -527,6 +530,7 @@
 				DEVELOPMENT_TEAM = 6CW3378X23;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = inperson/Info.plist;
 				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = Yeah;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;

@@ -7,10 +7,23 @@
 
 import Foundation
 
+enum Attendance: Codable, Equatable {
+    case going
+    case notGoing
+    case maybe
+}
+
+struct Response: Codable, Equatable {
+    let responder: UUID
+    let going: Attendance
+}
+
 struct Event: Codable, Equatable {
     let title: String
     let date: Date
     let lastUpdate: Date
+    let responses: [Response]
+    let creator: UUID
     
     func received(from friend: Friend) -> ReceivedEvent {
         .init(event: self, sender: friend)
@@ -34,6 +47,8 @@ class EventsManager {
     @UserDefaultable(key: .receivedEvents) private(set) var receivedEvents: [ReceivedEvent] = [] {
         didSet { reload() }
     }
+    
+    @UserDefaultable(key: .userUUID) var userUUID: UUID = .init()
     
     @Published var eventsToShare: [Event] = []
     
@@ -64,8 +79,11 @@ class EventsManager {
         newEvents
             .filter { myCurrentEvents.contains($0) == false } // Ignore ones we created
             .forEach { received in
-                // If it exists, update it if our copy is newer
-                if let existing = existingReceivedVersion(of: received) {
+                // If it's our event, we need to be more careful with how we update it
+                if received.creator == userUUID {
+                    // TODO: Update own event
+                } else if let existing = existingReceivedVersion(of: received) {
+                    // If it exists, update it if our copy is newer
                     if existing.lastUpdate < received.lastUpdate {
                         receivedEvents
                             .replaceFirst(with: received.received(from: friend), where: { $0.event == received })

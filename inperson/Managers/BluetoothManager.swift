@@ -67,7 +67,7 @@ class BluetoothManager: NSObject {
         .store(in: &cancellables)
         
         centralManager.$peripherals.sink { peripherals in
-            self.devices = peripherals.map { .init(id: $0.identifier) }
+            self.devices = peripherals.map { $0.device }
         }.store(in: &cancellables)
     }
     
@@ -86,15 +86,22 @@ class BluetoothManager: NSObject {
             .eraseToAnyPublisher()
     }
     
-    func writeData(_ data: Data, to device: Device) -> AnyPublisher<Void, Error> {
+    func writeData(_ data: [Data], to device: Device) -> AnyPublisher<Void, Error> {
         centralManager.stopScanning()
         
         return centralManager.connect(to: device)
             .flatMap { peripheral in
-                self.centralManager.writeDataCharacteristic(data, to: device.id)
+                data.reduce(Just(()).setFailureType(to: Error.self).eraseToAnyPublisher()) { partialResult, data in
+                    partialResult.flatMap {
+                        self.centralManager
+                            .writeDataCharacteristic(data, to: device.id)
+                            .eraseToAnyPublisher()
+                    }
+                    .eraseToAnyPublisher()
+                }
             }
-            .flatMap { data in
-                self.centralManager.disconnect(from: device).map { data }
+            .flatMap { _ in
+                self.centralManager.disconnect(from: device)
             }
             .flatMap {
                 Future { promise in

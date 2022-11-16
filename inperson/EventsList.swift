@@ -8,11 +8,12 @@
 import SwiftUI
 import Combine
 
+
 struct EventListItem: Identifiable {
-    var id: String { title + date.ISO8601Format() }
+    var id: String { title + date }
     let title: String
-    let date: Date
-    let creator: String
+    let date: String
+    let source: String
 }
 
 class EventsListViewModel: NSObject, ObservableObject {
@@ -25,6 +26,8 @@ class EventsListViewModel: NSObject, ObservableObject {
     
     @Published var isScanning: Bool = false
     var cancellables: Set<AnyCancellable> = .init()
+    
+    @UserDefaultable(key: .userUUID) var userUUID: UUID = .init()
     
     override init() {
         super.init()
@@ -42,20 +45,47 @@ class EventsListViewModel: NSObject, ObservableObject {
     
     private func reload() {
         myEvents = eventsManager.myCurrentEvents.map {
-            .init(title: $0.title, date: $0.date, creator: "Me")
+            .init(
+                title: $0.title,
+                date: $0.date.ISO8601Format(),
+                source: "Created by me"
+            )
         }
         
         othersEvents = eventsManager.receivedEvents.map {
-            .init(title: $0.event.title, date: $0.event.date, creator: $0.sender.name)
+            let creator = friendsManager.friend(for: $0.event.creator)
+            let creatorUUID = creator?.device.id ?? $0.event.creator
+            
+            var source = "Created by \(creator?.name ?? creatorUUID.uuidString)"
+            
+            if creatorUUID != $0.sender.device.id {
+                source += "\nReceived from \($0.sender.name)"
+            }
+            
+           return .init(
+                title: $0.event.title,
+                date: $0.event.date.ISO8601Format(),
+                source: source
+            )
         }
     }
 
-    func addEvent(_ event: Event) {
-        eventsManager.createEvent(event)
-        friendsManager.shareEventsWithNearbyFriends()
-            .sink { _ in } receiveValue: { _ in }
-            .store(in: &cancellables)
-
+    func addEvent(title: String, date: Date) {
+        eventsManager.createEvent(
+            .init(
+                title: title,
+                date: date,
+                lastUpdate: .now,
+                responses: [.init(responder: userUUID, going: .going)],
+                creator: userUUID
+            )
+        )
+        
+        sendEvents()
+    }
+    
+    func sendEvents() {
+        friendsManager.shareEventsWithNearbyFriends().sink { _ in } receiveValue: { _ in }.store(in: &cancellables)
     }
 }
 
@@ -66,16 +96,13 @@ struct EventListItemView: View {
         HStack {
             VStack(alignment: .leading) {
                 Text(event.title)
-                Text(event.date.ISO8601Format())
+                Text(event.date)
                     .font(.footnote)
             }
             
             Spacer()
             
-            VStack(alignment: .leading) {
-                Text("Received from").font(.footnote)
-                Text(event.creator).font(.footnote)
-            }
+            Text(event.source).font(.footnote).multilineTextAlignment(.trailing)
         }
     }
 }
@@ -85,21 +112,27 @@ struct EventsList: View {
     @State var showAddEvent: Bool = false
     
     var body: some View {
-        List {
-            Section("Mine") {
-                ForEach(viewModel.myEvents) { event in
-                    EventListItemView(event: event)
+        VStack {
+            List {
+                Section("Mine") {
+                    ForEach(viewModel.myEvents) { event in
+                        EventListItemView(event: event)
+                    }
+                    
+                    Button("Add Event") {
+                        showAddEvent = true
+                    }
                 }
                 
-                Button("Add Event") {
-                    showAddEvent = true
+                Section("Others'") {
+                    ForEach(viewModel.othersEvents) { event in
+                        EventListItemView(event: event)
+                    }
                 }
             }
             
-            Section("Others'") {
-                ForEach(viewModel.othersEvents) { event in
-                    EventListItemView(event: event)
-                }
+            Button("Send Events") {
+                viewModel.sendEvents()
             }
         }
         .toolbar {
@@ -111,7 +144,7 @@ struct EventsList: View {
         }
         .sheet(isPresented: $showAddEvent) {
             AddEventsView() {
-                viewModel.addEvent($0)
+                viewModel.addEvent(title: $0.0, date: $0.1)
                 showAddEvent = false
             }
         }

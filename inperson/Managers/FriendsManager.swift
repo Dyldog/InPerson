@@ -30,6 +30,7 @@ class FriendsManager {
     let cryptoManager: CryptoManager
     let eventsManager: EventsManager
     
+    @UserDefaultable(key: .userUUID) var userUUID: UUID = .init()
     @UserDefaultable(key: .friends) var friends: [Friend] = []
     
     var cancellables: Set<AnyCancellable> = .init()
@@ -59,8 +60,8 @@ class FriendsManager {
             .store(in: &cancellables)
     }
     
-    func addFriend(for id: UUID, with name: String) {
-        friends.append(Friend(name: name, device: .init(id: id), publicKey: "TODO"))
+    func addFriend(for id: UUID, with name: String, and device: Device) {
+        friends.append(Friend(name: name, device: device, publicKey: "TODO"))
     }
     
     func friend(for id: UUID) -> Friend? {
@@ -93,7 +94,7 @@ class FriendsManager {
     
     func shareEventsWithNearbyFriends() -> AnyPublisher<Void, Error> {
         let nearbyFriends = self.filterFriends(from: bluetoothManager.devices)
-        let events = eventsManager.eventsToShare.encoded()
+        let events = eventsManager.eventsToShare.map { $0.encoded() }
 
         return Publishers.MergeMany(nearbyFriends.map { friend in
             self.bluetoothManager.writeData(events, to: friend.device)

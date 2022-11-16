@@ -17,24 +17,44 @@ class BluetoothCentralManager {
     
     @Published var isScanning: Bool = false
     
-    @Published private(set) var peripherals: [Peripheral] = []
+    @Published private(set) var peripherals: [(device: Device, peripheral: Peripheral)] = []
     var cancellables: Set<AnyCancellable> = .init()
     
     init(service: String, characteristic: String) {
         self.serviceUUID = service
         self.characteristicUUID = characteristic
+        
+//        SwiftyBluetooth.setSharedCentralInstanceWith(restoreIdentifier: "MY_APP_BLUETOOTH_STATE_RESTORE_IDENTIFIER")
+//
+//        NotificationCenter.default.addObserver(forName: SwiftyBluetooth.Central.CentralManagerWillRestoreState,
+//                                                object: Central.sharedInstance,
+//                                                 queue: nil) { (notification) in
+//            if let restoredPeripherals = notification.userInfo?["peripherals"] as? [Peripheral] {
+//                self.peripherals = restoredPeripherals
+//            }
+//        }
+        
         scanForDevices()
     }
     
     func scanForDevices() {
+        guard isScanning == false else { return }
         shouldRetryScanning = true
-        SwiftyBluetooth.scanForPeripherals(withServiceUUIDs: [serviceUUID], timeoutAfter: 15) { scanResult in
+        SwiftyBluetooth.scanForPeripherals(withServiceUUIDs: [serviceUUID], timeoutAfter: 20) { scanResult in
             switch scanResult {
             case .scanStarted:
                 self.isScanning = true
+                self.peripherals = []
             case .scanResult(let peripheral, let advertisementData, let RSSI):
-                if self.peripherals.contains(where: { $0.identifier == peripheral.identifier }) == false {
-                    self.peripherals.append(peripheral)
+//                guard
+//                    let identifier = advertisementData[BluetoothPeripheralManager.userIDAdvertisementKey] as? String,
+//                    let uuid = UUID(uuidString: identifier)
+//                else { return }
+                                
+                let deviceID = peripheral.identifier
+                
+                if self.peripherals.contains(where: { $0.device.id == deviceID }) == false {
+                    self.peripherals.append((.init(id: deviceID), peripheral))
                 }
             case .scanStopped(let error):
                 self.isScanning = false
@@ -53,7 +73,7 @@ class BluetoothCentralManager {
     }
     
     func connect(to device: Device) -> AnyPublisher<Peripheral, Error> {
-        guard let peripheral = peripherals.first(where: { $0.identifier == device.id }) else {
+        guard let peripheral = peripherals.first(where: { $0.device.id == device.id })?.peripheral else {
             return Fail(error: BluetoothError.cantConnectToUnknownDevice).eraseToAnyPublisher()
         }
         
@@ -64,17 +84,6 @@ class BluetoothCentralManager {
                     promise(.success(peripheral))
                 case let .failure(error):
                     promise(.failure(error))
-                }
-            }
-        }.flatMap { _ in
-            Future<Peripheral, Error> { promise in
-                peripheral.discoverCharacteristics(ofServiceWithUUID: BluetoothManager.serviceUUID) { result in
-                    switch result {
-                    case .success:
-                        promise(.success(peripheral))
-                    case let .failure(error):
-                        promise(.failure(error))
-                    }
                 }
             }
         }
@@ -96,7 +105,7 @@ class BluetoothCentralManager {
     }
     
     func writeDataCharacteristic(_ value: Data, to peripheralID: UUID) -> AnyPublisher<Void, Error> {
-        guard let peripheral = peripherals.first(where: { $0.identifier == peripheralID }) else {
+        guard let peripheral = peripherals.first(where: { $0.peripheral.identifier == peripheralID })?.peripheral else {
             return Fail(error: BluetoothError.cantConnectToUnknownDevice).eraseToAnyPublisher()
         }
         
@@ -114,7 +123,7 @@ class BluetoothCentralManager {
     }
     
     func disconnect(from device: Device) -> AnyPublisher<Void, Error> {
-        guard let peripheral = peripherals.first(where: { $0.identifier == device.id }) else {
+        guard let peripheral = peripherals.first(where: { $0.device.id == device.id })?.peripheral else {
             return Fail(error: BluetoothError.cantConnectToUnknownDevice).eraseToAnyPublisher()
         }
         

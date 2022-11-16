@@ -9,6 +9,9 @@ import Foundation
 import CoreBluetooth
 
 class BluetoothPeripheralManager: NSObject {
+    
+    static let userIDAdvertisementKey = CBAdvertisementDataLocalNameKey
+    
     let serviceUUID: String
     let characteristicUUID: String
     
@@ -16,6 +19,7 @@ class BluetoothPeripheralManager: NSObject {
     
     var onRequest: (() -> Data)?
     var onWriteRequest: ((UUID, Data) -> Void)?
+    @UserDefaultable(key: .userUUID) var advertisementID: UUID = .init()
     
     init(service: String, characteristic: String) {
         self.serviceUUID = service
@@ -47,9 +51,9 @@ class BluetoothPeripheralManager: NSObject {
     
     func startAdvertising() {
         peripheralManager.startAdvertising([
-            CBAdvertisementDataLocalNameKey : "BLEPeripheralApp",
-            CBAdvertisementDataServiceUUIDsKey : [service]]
-        )
+            CBAdvertisementDataLocalNameKey : advertisementID.uuidString,
+            CBAdvertisementDataServiceUUIDsKey : [service],
+        ])
         print("Started Advertising")
     }
 }
