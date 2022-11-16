@@ -13,6 +13,7 @@ enum DefaultsKey: String, CaseIterable {
     case userCreatedEvents = "USER_CREATED_EVENTS"
     case receivedEvents = "RECEIVED_EVENTS"
     case friends = "FRIENDS"
+    case userUUID = "USER_UUID"
 }
 
 func getFromUserDefaults<T: Codable>(for key: DefaultsKey) -> T? {

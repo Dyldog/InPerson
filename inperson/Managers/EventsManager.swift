@@ -26,13 +26,24 @@ struct ReceivedEvent: Codable, Equatable {
 ///     - Storing created and received events
 ///     - Creating and editing events
 class EventsManager {
-    @UserDefaultable(key: .userCreatedEvents) private var myCurrentEvents: [Event] = []
-    @UserDefaultable(key: .receivedEvents) private var receivedEvents: [ReceivedEvent] = []
+    static var shared: EventsManager = .init()
     
-    var eventsToShare: [Event] {
-        myCurrentEvents + receivedEvents.map { $0.event }
+    @UserDefaultable(key: .userCreatedEvents) private(set) var myCurrentEvents: [Event] = [] {
+        didSet { reload() }
+    }
+    @UserDefaultable(key: .receivedEvents) private(set) var receivedEvents: [ReceivedEvent] = [] {
+        didSet { reload() }
     }
     
+    @Published var eventsToShare: [Event] = []
+    
+    init() {
+        reload()
+    }
+    
+    private func reload() {
+        eventsToShare = myCurrentEvents + receivedEvents.map { $0.event }
+    }
     func createEvent(_ event: Event) {
         myCurrentEvents.append(event)
     }
@@ -67,6 +78,11 @@ class EventsManager {
     
     func didReceiveEvents(_ events: [Event], from friend: Friend) {
         updateReceivedEvents(with: events, from: friend)
+    }
+    
+    func clearAllData() {
+        myCurrentEvents = []
+        receivedEvents = []
     }
 }
 

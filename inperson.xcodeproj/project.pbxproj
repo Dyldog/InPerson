@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		110C048B29231F0D00DCEDA3 /* inpersonApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 110C048A29231F0D00DCEDA3 /* inpersonApp.swift */; };
-		110C048D29231F0D00DCEDA3 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 110C048C29231F0D00DCEDA3 /* ContentView.swift */; };
+		110C048D29231F0D00DCEDA3 /* FriendsList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 110C048C29231F0D00DCEDA3 /* FriendsList.swift */; };
 		110C048F29231F0F00DCEDA3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 110C048E29231F0F00DCEDA3 /* Assets.xcassets */; };
 		110C049229231F0F00DCEDA3 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 110C049129231F0F00DCEDA3 /* Preview Assets.xcassets */; };
 		110C049C29231F0F00DCEDA3 /* inpersonTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 110C049B29231F0F00DCEDA3 /* inpersonTests.swift */; };
@@ -21,6 +21,13 @@
 		110C04BD292322CD00DCEDA3 /* DefaultsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 110C04BB292322CD00DCEDA3 /* DefaultsStore.swift */; };
 		110C04BF2923231A00DCEDA3 /* DefaultsHandling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 110C04BE2923231900DCEDA3 /* DefaultsHandling.swift */; };
 		110C04C2292326DD00DCEDA3 /* EventsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 110C04C1292326DD00DCEDA3 /* EventsManager.swift */; };
+		110C04CB2923544B00DCEDA3 /* SwiftyBluetooth in Frameworks */ = {isa = PBXBuildFile; productRef = 110C04CA2923544B00DCEDA3 /* SwiftyBluetooth */; };
+		110C04CD29235EC200DCEDA3 /* BluetoothPeripheralManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 110C04CC29235EC200DCEDA3 /* BluetoothPeripheralManager.swift */; };
+		110C04CF29236E9A00DCEDA3 /* BluetoothCentralManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 110C04CE29236E9A00DCEDA3 /* BluetoothCentralManager.swift */; };
+		110C04D1292370F600DCEDA3 /* EventsList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 110C04D0292370F600DCEDA3 /* EventsList.swift */; };
+		110C04D32923795C00DCEDA3 /* TextFieldAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 110C04D22923795C00DCEDA3 /* TextFieldAlert.swift */; };
+		110C04D629237E0600DCEDA3 /* AddEventView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 110C04D529237E0600DCEDA3 /* AddEventView.swift */; };
+		110C04D8292393F000DCEDA3 /* DebugView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 110C04D7292393F000DCEDA3 /* DebugView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -43,7 +50,7 @@
 /* Begin PBXFileReference section */
 		110C048729231F0D00DCEDA3 /* inperson.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = inperson.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		110C048A29231F0D00DCEDA3 /* inpersonApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = inpersonApp.swift; sourceTree = "<group>"; };
-		110C048C29231F0D00DCEDA3 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		110C048C29231F0D00DCEDA3 /* FriendsList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsList.swift; sourceTree = "<group>"; };
 		110C048E29231F0F00DCEDA3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		110C049129231F0F00DCEDA3 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		110C049729231F0F00DCEDA3 /* inpersonTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = inpersonTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -58,6 +65,12 @@
 		110C04BB292322CD00DCEDA3 /* DefaultsStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultsStore.swift; sourceTree = "<group>"; };
 		110C04BE2923231900DCEDA3 /* DefaultsHandling.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultsHandling.swift; sourceTree = "<group>"; };
 		110C04C1292326DD00DCEDA3 /* EventsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsManager.swift; sourceTree = "<group>"; };
+		110C04CC29235EC200DCEDA3 /* BluetoothPeripheralManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothPeripheralManager.swift; sourceTree = "<group>"; };
+		110C04CE29236E9A00DCEDA3 /* BluetoothCentralManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothCentralManager.swift; sourceTree = "<group>"; };
+		110C04D0292370F600DCEDA3 /* EventsList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsList.swift; sourceTree = "<group>"; };
+		110C04D22923795C00DCEDA3 /* TextFieldAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldAlert.swift; sourceTree = "<group>"; };
+		110C04D529237E0600DCEDA3 /* AddEventView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddEventView.swift; sourceTree = "<group>"; };
+		110C04D7292393F000DCEDA3 /* DebugView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,6 +78,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				110C04CB2923544B00DCEDA3 /* SwiftyBluetooth in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -110,11 +124,12 @@
 			children = (
 				110C048A29231F0D00DCEDA3 /* inpersonApp.swift */,
 				110C04C0292326D300DCEDA3 /* User Defaults */,
-				110C048C29231F0D00DCEDA3 /* ContentView.swift */,
-				110C04B429231F2900DCEDA3 /* BluetoothManager.swift */,
-				110C04B82923201D00DCEDA3 /* CryptoManager.swift */,
-				110C04B629231F5C00DCEDA3 /* FriendsManager.swift */,
-				110C04C1292326DD00DCEDA3 /* EventsManager.swift */,
+				110C048C29231F0D00DCEDA3 /* FriendsList.swift */,
+				110C04D0292370F600DCEDA3 /* EventsList.swift */,
+				110C04D529237E0600DCEDA3 /* AddEventView.swift */,
+				110C04D7292393F000DCEDA3 /* DebugView.swift */,
+				110C04D429237DF900DCEDA3 /* Managers */,
+				110C04D22923795C00DCEDA3 /* TextFieldAlert.swift */,
 				110C048E29231F0F00DCEDA3 /* Assets.xcassets */,
 				110C049029231F0F00DCEDA3 /* Preview Content */,
 			);
@@ -156,6 +171,19 @@
 			path = "User Defaults";
 			sourceTree = "<group>";
 		};
+		110C04D429237DF900DCEDA3 /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				110C04B429231F2900DCEDA3 /* BluetoothManager.swift */,
+				110C04CE29236E9A00DCEDA3 /* BluetoothCentralManager.swift */,
+				110C04CC29235EC200DCEDA3 /* BluetoothPeripheralManager.swift */,
+				110C04B82923201D00DCEDA3 /* CryptoManager.swift */,
+				110C04B629231F5C00DCEDA3 /* FriendsManager.swift */,
+				110C04C1292326DD00DCEDA3 /* EventsManager.swift */,
+			);
+			path = Managers;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -172,6 +200,9 @@
 			dependencies = (
 			);
 			name = inperson;
+			packageProductDependencies = (
+				110C04CA2923544B00DCEDA3 /* SwiftyBluetooth */,
+			);
 			productName = inperson;
 			productReference = 110C048729231F0D00DCEDA3 /* inperson.app */;
 			productType = "com.apple.product-type.application";
@@ -244,6 +275,9 @@
 				Base,
 			);
 			mainGroup = 110C047E29231F0D00DCEDA3;
+			packageReferences = (
+				110C04C92923544B00DCEDA3 /* XCRemoteSwiftPackageReference "SwiftyBluetooth" */,
+			);
 			productRefGroup = 110C048829231F0D00DCEDA3 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -286,8 +320,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				110C048D29231F0D00DCEDA3 /* ContentView.swift in Sources */,
+				110C04CF29236E9A00DCEDA3 /* BluetoothCentralManager.swift in Sources */,
+				110C04D629237E0600DCEDA3 /* AddEventView.swift in Sources */,
+				110C04CD29235EC200DCEDA3 /* BluetoothPeripheralManager.swift in Sources */,
+				110C048D29231F0D00DCEDA3 /* FriendsList.swift in Sources */,
 				110C04B729231F5C00DCEDA3 /* FriendsManager.swift in Sources */,
+				110C04D1292370F600DCEDA3 /* EventsList.swift in Sources */,
+				110C04D8292393F000DCEDA3 /* DebugView.swift in Sources */,
 				110C04B92923201D00DCEDA3 /* CryptoManager.swift in Sources */,
 				110C04C2292326DD00DCEDA3 /* EventsManager.swift in Sources */,
 				110C04B529231F2900DCEDA3 /* BluetoothManager.swift in Sources */,
@@ -295,6 +334,7 @@
 				110C04BC292322CD00DCEDA3 /* UserDefaultable.swift in Sources */,
 				110C04BF2923231A00DCEDA3 /* DefaultsHandling.swift in Sources */,
 				110C048B29231F0D00DCEDA3 /* inpersonApp.swift in Sources */,
+				110C04D32923795C00DCEDA3 /* TextFieldAlert.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -456,11 +496,13 @@
 				DEVELOPMENT_TEAM = 6CW3378X23;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = Yeah;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -485,11 +527,13 @@
 				DEVELOPMENT_TEAM = 6CW3378X23;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = Yeah;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -619,6 +663,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		110C04C92923544B00DCEDA3 /* XCRemoteSwiftPackageReference "SwiftyBluetooth" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/jordanebelanger/SwiftyBluetooth";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		110C04CA2923544B00DCEDA3 /* SwiftyBluetooth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 110C04C92923544B00DCEDA3 /* XCRemoteSwiftPackageReference "SwiftyBluetooth" */;
+			productName = SwiftyBluetooth;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 110C047F29231F0D00DCEDA3 /* Project object */;
 }
