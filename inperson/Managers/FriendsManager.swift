@@ -9,12 +9,6 @@ import Foundation
 import Combine
 import UIKit
 
-struct Friend: Codable, Equatable {
-    let name: String
-    let device: Device
-    let publicKey: String
-}
-
 enum FriendsManagerError: Error {
     case thing
 }
@@ -61,7 +55,7 @@ class FriendsManager {
             })
             .store(in: &self.cancellables)
         }
-//
+
         self.dataManager.receiveDataHandler = { (uuid: String, data: Data) in
             guard let events = try? data.decoded(as: [Event].self), let friend = self.friend(for: uuid) else { return }
             self.eventsManager.didReceiveEvents(events, from: friend)
@@ -79,14 +73,6 @@ class FriendsManager {
         } receiveValue: { devices in
             self.connectableDevices = devices
         }.store(in: &cancellables)
-        
-//        self.eventsManager.$eventsToShare.didSet.flatMap { _ in
-//            return self.shareEventsWithNearbyFriends().eraseToAnyPublisher()
-//        }.sink { _ in
-//            //
-//        } receiveValue: { _ in
-//            //
-//        }.store(in: &cancellables)
     }
     
     private func getName(for id: String) {
@@ -153,21 +139,5 @@ class FriendsManager {
     
     func clearAllData() {
         friends = []
-    }
-}
-
-extension Data {
-    func decoded<T: Decodable>(as decodeType: T.Type) throws -> T {
-        let decoder = JSONDecoder()
-        decoder.dateDecodingStrategy = .iso8601
-        return try decoder.decode(T.self, from: self)
-    }
-}
-
-extension Encodable {
-    func encoded() -> Data {
-        let encoder = JSONEncoder()
-        encoder.dateEncodingStrategy = .iso8601
-        return try! encoder.encode(self)
     }
 }

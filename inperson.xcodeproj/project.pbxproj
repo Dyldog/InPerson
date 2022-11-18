@@ -43,6 +43,15 @@
 		119424EC2927893000391BDA /* DebugEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 119424EB2927893000391BDA /* DebugEvent.swift */; };
 		119424EE2927895300391BDA /* DebugViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 119424ED2927895300391BDA /* DebugViewModel.swift */; };
 		119424F02927896F00391BDA /* Publisher+DidSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 119424EF2927896F00391BDA /* Publisher+DidSet.swift */; };
+		119424F329278B2000391BDA /* Array+FindByClosure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 119424F229278B2000391BDA /* Array+FindByClosure.swift */; };
+		119424F629278B6700391BDA /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 119424F529278B6700391BDA /* Event.swift */; };
+		119424F829278B8400391BDA /* AppViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 119424F729278B8400391BDA /* AppViewModel.swift */; };
+		119424FC29278BB300391BDA /* Attendance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 119424FB29278BB300391BDA /* Attendance.swift */; };
+		119424FE29278BC500391BDA /* Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = 119424FD29278BC500391BDA /* Response.swift */; };
+		1194250029278BD700391BDA /* ReceivedEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 119424FF29278BD700391BDA /* ReceivedEvent.swift */; };
+		1194250229278BEA00391BDA /* Friend.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1194250129278BEA00391BDA /* Friend.swift */; };
+		1194250429278C4000391BDA /* Data+Decoded.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1194250329278C4000391BDA /* Data+Decoded.swift */; };
+		1194250629278C4E00391BDA /* Encodable+Encoded.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1194250529278C4E00391BDA /* Encodable+Encoded.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -102,6 +111,15 @@
 		119424EB2927893000391BDA /* DebugEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugEvent.swift; sourceTree = "<group>"; };
 		119424ED2927895300391BDA /* DebugViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugViewModel.swift; sourceTree = "<group>"; };
 		119424EF2927896F00391BDA /* Publisher+DidSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Publisher+DidSet.swift"; sourceTree = "<group>"; };
+		119424F229278B2000391BDA /* Array+FindByClosure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+FindByClosure.swift"; sourceTree = "<group>"; };
+		119424F529278B6700391BDA /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
+		119424F729278B8400391BDA /* AppViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppViewModel.swift; sourceTree = "<group>"; };
+		119424FB29278BB300391BDA /* Attendance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Attendance.swift; sourceTree = "<group>"; };
+		119424FD29278BC500391BDA /* Response.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Response.swift; sourceTree = "<group>"; };
+		119424FF29278BD700391BDA /* ReceivedEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceivedEvent.swift; sourceTree = "<group>"; };
+		1194250129278BEA00391BDA /* Friend.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Friend.swift; sourceTree = "<group>"; };
+		1194250329278C4000391BDA /* Data+Decoded.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+Decoded.swift"; sourceTree = "<group>"; };
+		1194250529278C4E00391BDA /* Encodable+Encoded.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Encodable+Encoded.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -158,10 +176,8 @@
 			children = (
 				119424CD292722FE00391BDA /* inperson.entitlements */,
 				11310892292482C3005BD485 /* Info.plist */,
-				110C048A29231F0D00DCEDA3 /* inpersonApp.swift */,
-				119424E4292788CF00391BDA /* Events */,
-				119424D62927880300391BDA /* Friends List */,
-				119424E2292788BE00391BDA /* Debug */,
+				119424FA29278B9200391BDA /* Screens */,
+				119424F429278B6300391BDA /* Model */,
 				110C04D429237DF900DCEDA3 /* Managers */,
 				119424D3292787E000391BDA /* Extensions */,
 				110C048E29231F0F00DCEDA3 /* Assets.xcassets */,
@@ -231,6 +247,9 @@
 			children = (
 				110C04C0292326D300DCEDA3 /* User Defaults */,
 				110C04D22923795C00DCEDA3 /* TextFieldAlert.swift */,
+				1194250529278C4E00391BDA /* Encodable+Encoded.swift */,
+				1194250329278C4000391BDA /* Data+Decoded.swift */,
+				119424F229278B2000391BDA /* Array+FindByClosure.swift */,
 				119424E72927890300391BDA /* Data+ToString.swift */,
 				119424D4292787FD00391BDA /* String+Identifiable.swift */,
 				119424E5292788F300391BDA /* String+Prefixing.swift */,
@@ -303,6 +322,38 @@
 				110C04CC29235EC200DCEDA3 /* BluetoothPeripheralManager.swift */,
 			);
 			path = Bluetooth;
+			sourceTree = "<group>";
+		};
+		119424F429278B6300391BDA /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				119424F529278B6700391BDA /* Event.swift */,
+				119424FF29278BD700391BDA /* ReceivedEvent.swift */,
+				119424FB29278BB300391BDA /* Attendance.swift */,
+				119424FD29278BC500391BDA /* Response.swift */,
+				1194250129278BEA00391BDA /* Friend.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		119424F929278B8A00391BDA /* App */ = {
+			isa = PBXGroup;
+			children = (
+				110C048A29231F0D00DCEDA3 /* inpersonApp.swift */,
+				119424F729278B8400391BDA /* AppViewModel.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		119424FA29278B9200391BDA /* Screens */ = {
+			isa = PBXGroup;
+			children = (
+				119424F929278B8A00391BDA /* App */,
+				119424E4292788CF00391BDA /* Events */,
+				119424D62927880300391BDA /* Friends List */,
+				119424E2292788BE00391BDA /* Debug */,
+			);
+			path = Screens;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -445,14 +496,20 @@
 			files = (
 				110C04CF29236E9A00DCEDA3 /* BluetoothCentralManager.swift in Sources */,
 				119424D82927880F00391BDA /* FriendsListViewModel.swift in Sources */,
+				119424FC29278BB300391BDA /* Attendance.swift in Sources */,
 				110C04D629237E0600DCEDA3 /* AddEventView.swift in Sources */,
 				119424EA2927891D00391BDA /* DebugManager.swift in Sources */,
+				119424F629278B6700391BDA /* Event.swift in Sources */,
 				110C04CD29235EC200DCEDA3 /* BluetoothPeripheralManager.swift in Sources */,
+				119424FE29278BC500391BDA /* Response.swift in Sources */,
 				119424C9292716EA00391BDA /* MultiPeerManager.swift in Sources */,
+				1194250029278BD700391BDA /* ReceivedEvent.swift in Sources */,
+				1194250429278C4000391BDA /* Data+Decoded.swift in Sources */,
 				119424D5292787FD00391BDA /* String+Identifiable.swift in Sources */,
 				119424F02927896F00391BDA /* Publisher+DidSet.swift in Sources */,
 				110C048D29231F0D00DCEDA3 /* FriendsList.swift in Sources */,
 				119424E02927889B00391BDA /* EventsListViewModel.swift in Sources */,
+				119424F829278B8400391BDA /* AppViewModel.swift in Sources */,
 				119424E6292788F300391BDA /* String+Prefixing.swift in Sources */,
 				119424D22927543100391BDA /* EventDetailView.swift in Sources */,
 				110C04B729231F5C00DCEDA3 /* FriendsManager.swift in Sources */,
@@ -460,13 +517,16 @@
 				119424DA2927882B00391BDA /* FriendsListItemView.swift in Sources */,
 				119424E82927890300391BDA /* Data+ToString.swift in Sources */,
 				119424EE2927895300391BDA /* DebugViewModel.swift in Sources */,
+				1194250229278BEA00391BDA /* Friend.swift in Sources */,
 				110C04D8292393F000DCEDA3 /* DebugView.swift in Sources */,
 				110C04B92923201D00DCEDA3 /* CryptoManager.swift in Sources */,
 				110C04C2292326DD00DCEDA3 /* EventsManager.swift in Sources */,
 				110C04B529231F2900DCEDA3 /* BluetoothManager.swift in Sources */,
 				110C04BD292322CD00DCEDA3 /* DefaultsStore.swift in Sources */,
+				1194250629278C4E00391BDA /* Encodable+Encoded.swift in Sources */,
 				119424EC2927893000391BDA /* DebugEvent.swift in Sources */,
 				110C04BC292322CD00DCEDA3 /* UserDefaultable.swift in Sources */,
+				119424F329278B2000391BDA /* Array+FindByClosure.swift in Sources */,
 				110C04BF2923231A00DCEDA3 /* DefaultsHandling.swift in Sources */,
 				119424DE2927887700391BDA /* EventsListItemView.swift in Sources */,
 				110C048B29231F0D00DCEDA3 /* inpersonApp.swift in Sources */,
