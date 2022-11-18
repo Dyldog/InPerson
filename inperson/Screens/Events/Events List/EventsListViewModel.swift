@@ -27,6 +27,7 @@ class EventsListViewModel: NSObject, ObservableObject {
     
     @Published var isScanning: Bool = false
     @Published var detailViewModel: EventDetailViewModel?
+    @Published var showAddEvent: Bool = false
     
     init(friendsManager: FriendsManager, eventsManager: EventsManager, nearbyManager: NearbyConnectionManager) {
         self.friendsManager = friendsManager
@@ -91,15 +92,19 @@ class EventsListViewModel: NSObject, ObservableObject {
         }
     }
 
-    func addEvent(title: String, date: Date) {
+    func addEvent(_ details: EventCreationDetails) {
         eventsManager.createEvent(
             .init(
                 id: .init(),
-                title: title,
-                date: date,
+                title: details.title,
+                date: details.date,
                 lastUpdate: .now,
-                responses: [.init(responderID: userUUID, going: .host, lastUpdate: .now)],
-                creatorID: userUUID
+                responses: [],
+                creatorID: userUUID,
+                invites: details.invitees.map {
+                    .init(senderID: userUUID, recipientID: $0.device.id)
+                },
+                publicity: details.publicity
             )
         )
         
@@ -118,5 +123,12 @@ class EventsListViewModel: NSObject, ObservableObject {
         guard let event = (eventsManager.myCurrentEvents + eventsManager.receivedEvents.map { $0.event })
             .first(where: { $0.id.uuidString == item.id }) else { return }
         detailViewModel = .init(event: event, friendManager: friendsManager, eventManager: eventsManager)
+    }
+    
+    func addEventsViewModel() -> AddEventsViewModel {
+        .init(friendsManager: friendsManager, onDone: { [weak self] in
+            self?.addEvent($0)
+            self?.showAddEvent = false
+        })
     }
 }

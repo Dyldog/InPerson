@@ -48,7 +48,12 @@ class FriendsManager {
         self.dataManager.onConnectHandler = { [weak self] in
             guard let self = self, let friend = self.friend(for: $0.id) else { return }
             self.updateLastSeen(for: friend)
-            self.dataManager.writeData(eventsManager.eventsToShare.encoded(), to: $0).sink(receiveCompletion: { _ in
+            
+            if self.connectableDevices.contains($0) == false {
+                nearbyManager.initiateConnection(with: $0)
+            }
+            
+            self.shareEvents(with: friend).sink(receiveCompletion: { _ in
                 //
             }, receiveValue: { _ in
                 //
@@ -131,13 +136,28 @@ class FriendsManager {
         return devices.compactMap { friend(for: $0.id) }
     }
     
+    private func filterEvents(_ events: [Event], for friend: Friend) -> [Event] {
+        return events.filter { event in
+            switch event.publicity {
+            case .private, .canInvite:
+                return event.creatorID == friend.device.id || event.invites.contains(where: { $0.recipientID == friend.device.id })
+            case .autoShare: return true
+            }
+        }
+    }
+    
+    private func shareEvents(with friend: Friend) -> AnyPublisher<Void, Error>{
+        let events = filterEvents(eventsManager.eventsToShare, for: friend)
+        return self.dataManager.writeData(events.encoded(), to: friend.device)
+    }
     func shareEventsWithNearbyFriends() -> AnyPublisher<Void, Error> {
         let nearbyFriends = self.filterFriends(from: connectableDevices)
-        let events = eventsManager.eventsToShare.encoded()
         
-        return Publishers.MergeMany(nearbyFriends.map { friend in
-            return self.dataManager.writeData(events, to: friend.device)
-        })
+        return Publishers.MergeMany(
+            nearbyFriends.map {
+                self.shareEvents(with: $0)
+            }
+        )
         .collect().map { _ in () }.eraseToAnyPublisher()
     }
     

@@ -15,6 +15,9 @@ struct Event: Codable {
     let responses: [Response]
     let creatorID: String
     
+    let invites: [Invite]
+    let publicity: EventPublicity
+    
     func received(from friend: Friend) -> ReceivedEvent {
         .init(event: self, sender: friend)
     }
@@ -26,8 +29,27 @@ struct Event: Codable {
             date: date,
             lastUpdate: .now,
             responses: newResponses,
-            creatorID: creatorID
+            creatorID: creatorID,
+            invites: invites,
+            publicity: publicity
         )
+    }
+    
+    func updatingInvitees(with newInvitees: [Invite]) -> Event {
+        return .init(
+            id: id,
+            title: title,
+            date: date,
+            lastUpdate: .now,
+            responses: responses,
+            creatorID: creatorID,
+            invites: newInvitees,
+            publicity: publicity
+        )
+    }
+    
+    func userIsInvited(_ id: String) -> Bool {
+        return invites.contains(where: { $0.recipientID == id })
     }
 }
 

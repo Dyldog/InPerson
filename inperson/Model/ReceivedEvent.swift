@@ -14,6 +14,10 @@ struct ReceivedEvent: Codable {
     func updatingResponses(with responses: [Response]) -> ReceivedEvent {
         .init(event: event.updatingResponses(with: responses), sender: sender)
     }
+    
+    func updatingInvitees(with newInvitees: [Invite]) -> ReceivedEvent {
+        return .init(event: event.updatingInvitees(with: newInvitees), sender: sender)
+    }
 }
 
 extension Array where Element == ReceivedEvent {

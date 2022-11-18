@@ -18,9 +18,7 @@ class EventsManager {
     @UserDefaultable(key: .receivedEvents) private(set) var receivedEvents: [ReceivedEvent] = [] {
         didSet { reload() }
     }
-    @UserDefaultable(key: .pastEvents) private(set) var pastEvents: [Event] = [] {
-        didSet { reload() }
-    }
+    @UserDefaultable(key: .pastEvents) private(set) var pastEvents: [Event] = []
     
     @Published var eventsToShare: [Event] = []
     
@@ -103,6 +101,35 @@ class EventsManager {
         reload()
     }
     
+    private func newInvitesList(for event: Event, with invitees: [Invite]) -> [Invite] {
+        event.invites + invitees.filter { event.userIsInvited($0.recipientID) == false }
+    }
+    
+    func inviteFriends(_ invitees: [Friend], to event: Event) -> Event? {
+        let invites: [Invite] = invitees.map { .init(senderID: userUUID, recipientID: $0.device.id) }
+        
+        if let existing = existingCreatedVersion(of: event) {
+            let new = existing.updatingInvitees(with: newInvitesList(for: event, with: invites))
+            myCurrentEvents.replaceFirst(
+                with: new,
+                where: { $0.id == event.id }
+            )
+            reload()
+            return new
+        } else if let existing = existingReceivedVersion(of: event) {
+            let new = existing.updatingInvitees(with: newInvitesList(for: event, with: invites))
+            receivedEvents.replaceFirst(
+                with: new,
+                where: { $0.event.id == event.id }
+            )
+            reload()
+            return new.event
+        } else {
+            reload()
+            return nil
+        }
+    }
+    
     func didReceiveEvents(_ events: [Event], from friend: Friend) {
         updateReceivedEvents(with: events, from: friend)
     }
@@ -110,5 +137,6 @@ class EventsManager {
     func clearAllData() {
         myCurrentEvents = []
         receivedEvents = []
+        pastEvents = []
     }
 }

@@ -12,7 +12,6 @@ var userUUID: String = UIDevice.current.identifierForVendor?.uuidString ?? "ERRO
 
 struct EventsList: View {
     @StateObject var viewModel: EventsListViewModel
-    @State var showAddEvent: Bool = false
     
     var body: some View {
         VStack {
@@ -28,7 +27,7 @@ struct EventsList: View {
                     }
                     
                     Button("Add Event") {
-                        showAddEvent = true
+                        viewModel.showAddEvent = true
                     }
                 }
                 
@@ -59,11 +58,8 @@ struct EventsList: View {
                 Circle().foregroundColor(viewModel.isScanning ? .green : .red)
             }
         }
-        .sheet(isPresented: $showAddEvent) {
-            AddEventsView() {
-                viewModel.addEvent(title: $0.0, date: $0.1)
-                showAddEvent = false
-            }
+        .sheet(isPresented: $viewModel.showAddEvent) {
+            AddEventsView(viewModel: viewModel.addEventsViewModel())
         }
         .sheet(item: $viewModel.detailViewModel) { viewModel in
             EventDetailView(viewModel: viewModel)
