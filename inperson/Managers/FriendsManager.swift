@@ -74,22 +74,19 @@ class FriendsManager {
         }
         .store(in: &cancellables)
 
-        self.dataManager.connectableDevices.didSet.flatMap { (devices: [Device]) -> AnyPublisher<Void, Error> in
+        self.dataManager.connectableDevices.didSet.sink { _ in
+            //
+        } receiveValue: { devices in
             self.connectableDevices = devices
-            return self.shareEventsWithNearbyFriends().eraseToAnyPublisher()
-        }.sink { _ in
-            //
-        } receiveValue: { _ in
-            //
         }.store(in: &cancellables)
         
-        self.eventsManager.$eventsToShare.didSet.flatMap { _ in
-            return self.shareEventsWithNearbyFriends().eraseToAnyPublisher()
-        }.sink { _ in
-            //
-        } receiveValue: { _ in
-            //
-        }.store(in: &cancellables)
+//        self.eventsManager.$eventsToShare.didSet.flatMap { _ in
+//            return self.shareEventsWithNearbyFriends().eraseToAnyPublisher()
+//        }.sink { _ in
+//            //
+//        } receiveValue: { _ in
+//            //
+//        }.store(in: &cancellables)
     }
     
     private func getName(for id: String) {

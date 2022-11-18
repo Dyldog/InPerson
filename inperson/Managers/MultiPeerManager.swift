@@ -83,14 +83,21 @@ class MultiPeerManager: NSObject, NearbyConnectionManager, DataConnectionManager
     }
     
     func initiateConnection(with device: Device) {
-        guard let peer = nearbyPeers.first(where: { $0.0 == device.id }) else { return }
+        guard let peer = nearbyPeers.first(where: { $0.0 == device.id }) else {
+            DebugManager.shared.logEvent(.notSendingInviteToUnknownPeer(device: device.id))
+            return
+        }
         browser.invitePeer(peer.1, to: session, withContext: nil, timeout: 0)
+        
+        DebugManager.shared.logEvent(.sentInvite(device: device.id))
     }
     
     func writeData(_ data: Data, to device: Device) -> AnyPublisher<Void, Error> {
         guard let peer = nearbyPeers.first(where: { $0.0 == device.id }) else {
             return Fail(error: BluetoothError.cantConnectToUnknownDevice).eraseToAnyPublisher()
         }
+        
+        DebugManager.shared.logEvent(.sentDataToDevice(device: device.id, data: data.debugString))
         
         do {
             try session.send(data, toPeers: [peer.1], with: .reliable)
@@ -111,17 +118,20 @@ extension MultiPeerManager: MCSessionDelegate {
         let peer = nearbyPeers[peerIdx]
         
         if state == .connected {
+            DebugManager.shared.logEvent(.connectedToDevice(device: "\(peerID.displayName)/\(peer.0)"))
             connectableDevicesPublisher.value = connectableDevicesPublisher.value.filter { $0.id != peer.0 } + [
                 .init(id: peer.0)
             ]
             onConnectHandler?(.init(id: peer.0))
-        } else {
+        } else if state == .notConnected {
+            DebugManager.shared.logEvent(.disconnectedFromDevice(device: "\(peerID.displayName)/\(peer.0)"))
             connectableDevicesPublisher.value = connectableDevicesPublisher.value.filter { $0.id != peer.0 }
         }
     }
     
     func session(_ session: MCSession, didReceive data: Data, fromPeer peerID: MCPeerID) {
         guard let peer = nearbyPeers.first(where: { $0.1 == peerID }) else { return }
+        DebugManager.shared.logEvent(.receivedDataFromDevice(device: peer.0, data: data.debugString))
         receiveDataHandler?(peer.0, data)
     }
     
@@ -161,8 +171,12 @@ extension MultiPeerManager: MCNearbyServiceAdvertiserDelegate {
         invitationHandler: @escaping (Bool, MCSession?) -> Void
     ) {
         guard let peer = nearbyPeers.first(where: { $0.1 == peerID }) else {
+            DebugManager.shared.logEvent(.ignoredInviteFromUnknownPeer(device: peerID.displayName))
             return invitationHandler(false, nil)
         }
+        
+        DebugManager.shared.logEvent(.receivedInvite(device: peer.0))
+        
         onInviteHandler?(peer.0, { invitationHandler($0, self.session) })
     }
 }
@@ -174,10 +188,12 @@ extension MultiPeerManager: MCNearbyServiceBrowserDelegate {
     
     func browser(_ browser: MCNearbyServiceBrowser, foundPeer peerID: MCPeerID, withDiscoveryInfo info: [String : String]?) {
         guard let appID = info?[Constants.userUUIDKey.rawValue] else { return }
+        DebugManager.shared.logEvent(.foundPeer(id: "\(peerID.displayName)/\(appID)"))
         nearbyPeers = nearbyPeers.filter { $0.0 != appID } + [(appID, peerID)]
     }
     
     func browser(_ browser: MCNearbyServiceBrowser, lostPeer peerID: MCPeerID) {
+        DebugManager.shared.logEvent(.lostPeer(id: peerID.displayName))
         nearbyPeers = nearbyPeers.filter { $0.1 != peerID }
     }
 }

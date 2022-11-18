@@ -103,6 +103,12 @@ class EventDetailViewModel: NSObject, ObservableObject, Identifiable {
         eventManager.updateEvent(event, with: responses)
         
         reloadResponses()
+        
+        sendEvents()
+    }
+    
+    private func sendEvents() {
+        friendManager.shareEventsWithNearbyFriends().sink { _ in } receiveValue: { _ in }.store(in: &cancellables)
     }
     
 }
