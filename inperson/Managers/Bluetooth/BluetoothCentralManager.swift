@@ -45,18 +45,13 @@ class BluetoothCentralManager {
             case .scanStarted:
                 self.isScanning = true
                 self.peripherals = []
-            case .scanResult(let peripheral, let advertisementData, let RSSI):
-//                guard
-//                    let identifier = advertisementData[BluetoothPeripheralManager.userIDAdvertisementKey] as? String,
-//                    let uuid = UUID(uuidString: identifier)
-//                else { return }
-                                
+            case .scanResult(let peripheral, _, _):
                 let deviceID = peripheral.identifier.uuidString
                 
                 if self.peripherals.contains(where: { $0.device.id == deviceID }) == false {
                     self.peripherals.append((.init(id: deviceID), peripheral))
                 }
-            case .scanStopped(let error):
+            case .scanStopped:
                 self.isScanning = false
                 
                 if self.shouldRetryScanning {

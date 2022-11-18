@@ -159,8 +159,6 @@ extension MultiPeerManager: MCSessionDelegate {
     ) {
         //
     }
-    
-    
 }
 
 extension MultiPeerManager: MCNearbyServiceAdvertiserDelegate {
@@ -200,19 +198,6 @@ extension MultiPeerManager: MCNearbyServiceBrowserDelegate {
 
 extension UIApplication {
     func showAlert(_ alert: UIAlertController) {
-//        let appName = Bundle.main.infoDictionary?["CFBundleName"] as? String ?? "Invitation Received"
-//
-//        let ac = UIAlertController(title: appName, message: "'\(peerID.displayName)' wants to connect.", preferredStyle: .alert)
-//        let declineAction = UIAlertAction(title: "Decline", style: .cancel) { [weak self] _ in
-//            invitationHandler(false, self?.session)
-//        }
-//        let acceptAction = UIAlertAction(title: "Accept", style: .default) { [weak self] _ in
-//            invitationHandler(true, self?.session)
-//        }
-//
-//        ac.addAction(declineAction)
-//        ac.addAction(acceptAction)
-        
-        UIApplication.shared.windows.first?.rootViewController?.present(alert, animated: true)
+        windows.first?.rootViewController?.present(alert, animated: true)
     }
 }

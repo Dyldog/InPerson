@@ -102,14 +102,6 @@ class BluetoothManager: NSObject, NearbyConnectionManager, DataConnectionManager
         
         return centralManager.connect(to: device)
             .flatMap { peripheral in
-//                data.reduce(Just(()).setFailureType(to: Error.self).eraseToAnyPublisher()) { partialResult, data in
-//                    partialResult.flatMap {
-//                        self.centralManager
-//                            .writeDataCharacteristic(data, to: UUID(uuidString: device.id)!)
-//                            .eraseToAnyPublisher()
-//                    }
-//                    .eraseToAnyPublisher()
-//                }
                 self.centralManager
                     .writeDataCharacteristic(data, to: UUID(uuidString: device.id)!)
                     .eraseToAnyPublisher()
@@ -126,11 +118,5 @@ class BluetoothManager: NSObject, NearbyConnectionManager, DataConnectionManager
                 .eraseToAnyPublisher()
             }
             .eraseToAnyPublisher()
-    }
-}
-
-extension Publisher where Failure == Never {
-    var didSet: AnyPublisher<Output, Never> {
-        self.receive(on: RunLoop.main).eraseToAnyPublisher()
     }
 }

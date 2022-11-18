@@ -1,23 +1,12 @@
 //
-//  ContentView.swift
+//  EventsListViewModel.swift
 //  inperson
 //
-//  Created by Dylan Elliott on 15/11/2022.
+//  Created by Dylan Elliott on 18/11/2022.
 //
 
-import SwiftUI
+import Foundation
 import Combine
-
-
-struct EventListItem: Identifiable {
-    var id: String
-    let title: String
-    let date: String
-    let source: String
-    let responses: String
-}
-
-var userUUID: String = UIDevice.current.identifierForVendor?.uuidString ?? "ERROR!!!"
 
 class EventsListViewModel: NSObject, ObservableObject {
     let friendsManager: FriendsManager
@@ -103,86 +92,9 @@ class EventsListViewModel: NSObject, ObservableObject {
         nearbyManager.searchForNearbyDevices()
     }
     
-    func eventTapped(_ item: EventListItem) {     
+    func eventTapped(_ item: EventListItem) {
         guard let event = (eventsManager.myCurrentEvents + eventsManager.receivedEvents.map { $0.event })
             .first(where: { $0.id.uuidString == item.id }) else { return }
         detailViewModel = .init(event: event, friendManager: friendsManager, eventManager: eventsManager)
-    }
-}
-
-struct EventListItemView: View {
-    let event: EventListItem
-    
-    var body: some View {
-        HStack {
-            VStack(alignment: .leading) {
-                Text(event.title)
-                Text(event.date)
-                    .font(.footnote)
-                Text(event.responses)
-                    .font(.footnote)
-            }
-            
-            Spacer()
-            
-            Text(event.source).font(.footnote).multilineTextAlignment(.trailing)
-        }
-    }
-}
-
-struct EventsList: View {
-    @StateObject var viewModel: EventsListViewModel
-    @State var showAddEvent: Bool = false
-    
-    var body: some View {
-        VStack {
-            List {
-                Section("Mine") {
-                    ForEach(viewModel.myEvents) { event in
-                        Button {
-                            viewModel.eventTapped(event)
-                        } label: {
-                            EventListItemView(event: event)
-                        }
-                        .buttonStyle(PlainButtonStyle())
-                    }
-                    
-                    Button("Add Event") {
-                        showAddEvent = true
-                    }
-                }
-                
-                Section("Others'") {
-                    ForEach(viewModel.othersEvents) { event in
-                        Button {
-                            viewModel.eventTapped(event)
-                        } label: {
-                            EventListItemView(event: event)
-                        }
-                        .buttonStyle(PlainButtonStyle())
-                    }
-                }
-            }
-            
-            Button("Send Events") {
-                viewModel.sendEvents()
-            }
-        }
-        .toolbar {
-            Button {
-                viewModel.searchTapped()
-            } label: {
-                Circle().foregroundColor(viewModel.isScanning ? .green : .red)
-            }
-        }
-        .sheet(isPresented: $showAddEvent) {
-            AddEventsView() {
-                viewModel.addEvent(title: $0.0, date: $0.1)
-                showAddEvent = false
-            }
-        }
-        .sheet(item: $viewModel.detailViewModel) { viewModel in
-            EventDetailView(viewModel: viewModel)
-        }
     }
 }

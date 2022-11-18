@@ -32,6 +32,17 @@
 		119424CC292719FF00391BDA /* MultiPeer in Frameworks */ = {isa = PBXBuildFile; productRef = 119424CB292719FF00391BDA /* MultiPeer */; };
 		119424D0292722FF00391BDA /* ExternalAccessory.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 119424CF292722FF00391BDA /* ExternalAccessory.framework */; };
 		119424D22927543100391BDA /* EventDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 119424D12927543100391BDA /* EventDetailView.swift */; };
+		119424D5292787FD00391BDA /* String+Identifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 119424D4292787FD00391BDA /* String+Identifiable.swift */; };
+		119424D82927880F00391BDA /* FriendsListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 119424D72927880F00391BDA /* FriendsListViewModel.swift */; };
+		119424DA2927882B00391BDA /* FriendsListItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 119424D92927882B00391BDA /* FriendsListItemView.swift */; };
+		119424DE2927887700391BDA /* EventsListItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 119424DD2927887700391BDA /* EventsListItemView.swift */; };
+		119424E02927889B00391BDA /* EventsListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 119424DF2927889B00391BDA /* EventsListViewModel.swift */; };
+		119424E6292788F300391BDA /* String+Prefixing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 119424E5292788F300391BDA /* String+Prefixing.swift */; };
+		119424E82927890300391BDA /* Data+ToString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 119424E72927890300391BDA /* Data+ToString.swift */; };
+		119424EA2927891D00391BDA /* DebugManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 119424E92927891D00391BDA /* DebugManager.swift */; };
+		119424EC2927893000391BDA /* DebugEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 119424EB2927893000391BDA /* DebugEvent.swift */; };
+		119424EE2927895300391BDA /* DebugViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 119424ED2927895300391BDA /* DebugViewModel.swift */; };
+		119424F02927896F00391BDA /* Publisher+DidSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 119424EF2927896F00391BDA /* Publisher+DidSet.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -80,6 +91,17 @@
 		119424CD292722FE00391BDA /* inperson.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = inperson.entitlements; sourceTree = "<group>"; };
 		119424CF292722FF00391BDA /* ExternalAccessory.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ExternalAccessory.framework; path = System/Library/Frameworks/ExternalAccessory.framework; sourceTree = SDKROOT; };
 		119424D12927543100391BDA /* EventDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDetailView.swift; sourceTree = "<group>"; };
+		119424D4292787FD00391BDA /* String+Identifiable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Identifiable.swift"; sourceTree = "<group>"; };
+		119424D72927880F00391BDA /* FriendsListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsListViewModel.swift; sourceTree = "<group>"; };
+		119424D92927882B00391BDA /* FriendsListItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsListItemView.swift; sourceTree = "<group>"; };
+		119424DD2927887700391BDA /* EventsListItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsListItemView.swift; sourceTree = "<group>"; };
+		119424DF2927889B00391BDA /* EventsListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsListViewModel.swift; sourceTree = "<group>"; };
+		119424E5292788F300391BDA /* String+Prefixing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Prefixing.swift"; sourceTree = "<group>"; };
+		119424E72927890300391BDA /* Data+ToString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+ToString.swift"; sourceTree = "<group>"; };
+		119424E92927891D00391BDA /* DebugManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugManager.swift; sourceTree = "<group>"; };
+		119424EB2927893000391BDA /* DebugEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugEvent.swift; sourceTree = "<group>"; };
+		119424ED2927895300391BDA /* DebugViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugViewModel.swift; sourceTree = "<group>"; };
+		119424EF2927896F00391BDA /* Publisher+DidSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Publisher+DidSet.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -137,14 +159,11 @@
 				119424CD292722FE00391BDA /* inperson.entitlements */,
 				11310892292482C3005BD485 /* Info.plist */,
 				110C048A29231F0D00DCEDA3 /* inpersonApp.swift */,
-				110C04C0292326D300DCEDA3 /* User Defaults */,
-				110C048C29231F0D00DCEDA3 /* FriendsList.swift */,
-				110C04D0292370F600DCEDA3 /* EventsList.swift */,
-				110C04D529237E0600DCEDA3 /* AddEventView.swift */,
-				110C04D7292393F000DCEDA3 /* DebugView.swift */,
-				119424D12927543100391BDA /* EventDetailView.swift */,
+				119424E4292788CF00391BDA /* Events */,
+				119424D62927880300391BDA /* Friends List */,
+				119424E2292788BE00391BDA /* Debug */,
 				110C04D429237DF900DCEDA3 /* Managers */,
-				110C04D22923795C00DCEDA3 /* TextFieldAlert.swift */,
+				119424D3292787E000391BDA /* Extensions */,
 				110C048E29231F0F00DCEDA3 /* Assets.xcassets */,
 				110C049029231F0F00DCEDA3 /* Preview Content */,
 			);
@@ -189,13 +208,12 @@
 		110C04D429237DF900DCEDA3 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
-				110C04B429231F2900DCEDA3 /* BluetoothManager.swift */,
-				110C04CE29236E9A00DCEDA3 /* BluetoothCentralManager.swift */,
-				110C04CC29235EC200DCEDA3 /* BluetoothPeripheralManager.swift */,
+				119424F12927899800391BDA /* Bluetooth */,
 				110C04B82923201D00DCEDA3 /* CryptoManager.swift */,
 				110C04B629231F5C00DCEDA3 /* FriendsManager.swift */,
 				110C04C1292326DD00DCEDA3 /* EventsManager.swift */,
 				119424C8292716EA00391BDA /* MultiPeerManager.swift */,
+				119424E92927891D00391BDA /* DebugManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -206,6 +224,85 @@
 				119424CF292722FF00391BDA /* ExternalAccessory.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		119424D3292787E000391BDA /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				110C04C0292326D300DCEDA3 /* User Defaults */,
+				110C04D22923795C00DCEDA3 /* TextFieldAlert.swift */,
+				119424E72927890300391BDA /* Data+ToString.swift */,
+				119424D4292787FD00391BDA /* String+Identifiable.swift */,
+				119424E5292788F300391BDA /* String+Prefixing.swift */,
+				119424EF2927896F00391BDA /* Publisher+DidSet.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		119424D62927880300391BDA /* Friends List */ = {
+			isa = PBXGroup;
+			children = (
+				110C048C29231F0D00DCEDA3 /* FriendsList.swift */,
+				119424D72927880F00391BDA /* FriendsListViewModel.swift */,
+				119424D92927882B00391BDA /* FriendsListItemView.swift */,
+			);
+			path = "Friends List";
+			sourceTree = "<group>";
+		};
+		119424DB2927884F00391BDA /* Events List */ = {
+			isa = PBXGroup;
+			children = (
+				110C04D0292370F600DCEDA3 /* EventsList.swift */,
+				119424DF2927889B00391BDA /* EventsListViewModel.swift */,
+				119424DD2927887700391BDA /* EventsListItemView.swift */,
+			);
+			path = "Events List";
+			sourceTree = "<group>";
+		};
+		119424E1292788B800391BDA /* Add Event */ = {
+			isa = PBXGroup;
+			children = (
+				110C04D529237E0600DCEDA3 /* AddEventView.swift */,
+			);
+			path = "Add Event";
+			sourceTree = "<group>";
+		};
+		119424E2292788BE00391BDA /* Debug */ = {
+			isa = PBXGroup;
+			children = (
+				110C04D7292393F000DCEDA3 /* DebugView.swift */,
+				119424ED2927895300391BDA /* DebugViewModel.swift */,
+				119424EB2927893000391BDA /* DebugEvent.swift */,
+			);
+			path = Debug;
+			sourceTree = "<group>";
+		};
+		119424E3292788C400391BDA /* Event Detail */ = {
+			isa = PBXGroup;
+			children = (
+				119424D12927543100391BDA /* EventDetailView.swift */,
+			);
+			path = "Event Detail";
+			sourceTree = "<group>";
+		};
+		119424E4292788CF00391BDA /* Events */ = {
+			isa = PBXGroup;
+			children = (
+				119424DB2927884F00391BDA /* Events List */,
+				119424E1292788B800391BDA /* Add Event */,
+				119424E3292788C400391BDA /* Event Detail */,
+			);
+			path = Events;
+			sourceTree = "<group>";
+		};
+		119424F12927899800391BDA /* Bluetooth */ = {
+			isa = PBXGroup;
+			children = (
+				110C04B429231F2900DCEDA3 /* BluetoothManager.swift */,
+				110C04CE29236E9A00DCEDA3 /* BluetoothCentralManager.swift */,
+				110C04CC29235EC200DCEDA3 /* BluetoothPeripheralManager.swift */,
+			);
+			path = Bluetooth;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -347,20 +444,31 @@
 			buildActionMask = 2147483647;
 			files = (
 				110C04CF29236E9A00DCEDA3 /* BluetoothCentralManager.swift in Sources */,
+				119424D82927880F00391BDA /* FriendsListViewModel.swift in Sources */,
 				110C04D629237E0600DCEDA3 /* AddEventView.swift in Sources */,
+				119424EA2927891D00391BDA /* DebugManager.swift in Sources */,
 				110C04CD29235EC200DCEDA3 /* BluetoothPeripheralManager.swift in Sources */,
 				119424C9292716EA00391BDA /* MultiPeerManager.swift in Sources */,
+				119424D5292787FD00391BDA /* String+Identifiable.swift in Sources */,
+				119424F02927896F00391BDA /* Publisher+DidSet.swift in Sources */,
 				110C048D29231F0D00DCEDA3 /* FriendsList.swift in Sources */,
+				119424E02927889B00391BDA /* EventsListViewModel.swift in Sources */,
+				119424E6292788F300391BDA /* String+Prefixing.swift in Sources */,
 				119424D22927543100391BDA /* EventDetailView.swift in Sources */,
 				110C04B729231F5C00DCEDA3 /* FriendsManager.swift in Sources */,
 				110C04D1292370F600DCEDA3 /* EventsList.swift in Sources */,
+				119424DA2927882B00391BDA /* FriendsListItemView.swift in Sources */,
+				119424E82927890300391BDA /* Data+ToString.swift in Sources */,
+				119424EE2927895300391BDA /* DebugViewModel.swift in Sources */,
 				110C04D8292393F000DCEDA3 /* DebugView.swift in Sources */,
 				110C04B92923201D00DCEDA3 /* CryptoManager.swift in Sources */,
 				110C04C2292326DD00DCEDA3 /* EventsManager.swift in Sources */,
 				110C04B529231F2900DCEDA3 /* BluetoothManager.swift in Sources */,
 				110C04BD292322CD00DCEDA3 /* DefaultsStore.swift in Sources */,
+				119424EC2927893000391BDA /* DebugEvent.swift in Sources */,
 				110C04BC292322CD00DCEDA3 /* UserDefaultable.swift in Sources */,
 				110C04BF2923231A00DCEDA3 /* DefaultsHandling.swift in Sources */,
+				119424DE2927887700391BDA /* EventsListItemView.swift in Sources */,
 				110C048B29231F0D00DCEDA3 /* inpersonApp.swift in Sources */,
 				110C04D32923795C00DCEDA3 /* TextFieldAlert.swift in Sources */,
 			);
