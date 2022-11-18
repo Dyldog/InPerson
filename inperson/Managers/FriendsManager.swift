@@ -82,6 +82,14 @@ class FriendsManager {
         } receiveValue: { _ in
             //
         }.store(in: &cancellables)
+        
+        self.eventsManager.$eventsToShare.didSet.flatMap { _ in
+            return self.shareEventsWithNearbyFriends().eraseToAnyPublisher()
+        }.sink { _ in
+            //
+        } receiveValue: { _ in
+            //
+        }.store(in: &cancellables)
     }
     
     private func getName(for id: String) {

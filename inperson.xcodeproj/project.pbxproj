@@ -31,6 +31,7 @@
 		119424C9292716EA00391BDA /* MultiPeerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 119424C8292716EA00391BDA /* MultiPeerManager.swift */; };
 		119424CC292719FF00391BDA /* MultiPeer in Frameworks */ = {isa = PBXBuildFile; productRef = 119424CB292719FF00391BDA /* MultiPeer */; };
 		119424D0292722FF00391BDA /* ExternalAccessory.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 119424CF292722FF00391BDA /* ExternalAccessory.framework */; };
+		119424D22927543100391BDA /* EventDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 119424D12927543100391BDA /* EventDetailView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -78,6 +79,7 @@
 		119424C8292716EA00391BDA /* MultiPeerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiPeerManager.swift; sourceTree = "<group>"; };
 		119424CD292722FE00391BDA /* inperson.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = inperson.entitlements; sourceTree = "<group>"; };
 		119424CF292722FF00391BDA /* ExternalAccessory.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ExternalAccessory.framework; path = System/Library/Frameworks/ExternalAccessory.framework; sourceTree = SDKROOT; };
+		119424D12927543100391BDA /* EventDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDetailView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -140,6 +142,7 @@
 				110C04D0292370F600DCEDA3 /* EventsList.swift */,
 				110C04D529237E0600DCEDA3 /* AddEventView.swift */,
 				110C04D7292393F000DCEDA3 /* DebugView.swift */,
+				119424D12927543100391BDA /* EventDetailView.swift */,
 				110C04D429237DF900DCEDA3 /* Managers */,
 				110C04D22923795C00DCEDA3 /* TextFieldAlert.swift */,
 				110C048E29231F0F00DCEDA3 /* Assets.xcassets */,
@@ -348,6 +351,7 @@
 				110C04CD29235EC200DCEDA3 /* BluetoothPeripheralManager.swift in Sources */,
 				119424C9292716EA00391BDA /* MultiPeerManager.swift in Sources */,
 				110C048D29231F0D00DCEDA3 /* FriendsList.swift in Sources */,
+				119424D22927543100391BDA /* EventDetailView.swift in Sources */,
 				110C04B729231F5C00DCEDA3 /* FriendsManager.swift in Sources */,
 				110C04D1292370F600DCEDA3 /* EventsList.swift in Sources */,
 				110C04D8292393F000DCEDA3 /* DebugView.swift in Sources */,

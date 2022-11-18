@@ -10,10 +10,11 @@ import Combine
 
 
 struct EventListItem: Identifiable {
-    var id: String { title + date }
+    var id: String
     let title: String
     let date: String
     let source: String
+    let responses: String
 }
 
 var userUUID: String = UIDevice.current.identifierForVendor?.uuidString ?? "ERROR!!!"
@@ -28,6 +29,8 @@ class EventsListViewModel: NSObject, ObservableObject {
     
     @Published var isScanning: Bool = false
     var cancellables: Set<AnyCancellable> = .init()
+    
+    @Published var detailViewModel: EventDetailViewModel?
     
     init(friendsManager: FriendsManager, eventsManager: EventsManager, nearbyManager: NearbyConnectionManager) {
         self.friendsManager = friendsManager
@@ -49,9 +52,11 @@ class EventsListViewModel: NSObject, ObservableObject {
     private func reload() {
         myEvents = eventsManager.myCurrentEvents.map {
             .init(
+                id: $0.id.uuidString,
                 title: $0.title,
                 date: $0.date.ISO8601Format(),
-                source: "Created by me"
+                source: "Created by me",
+                responses: $0.responses.summary
             )
         }
         
@@ -66,9 +71,11 @@ class EventsListViewModel: NSObject, ObservableObject {
             }
             
            return .init(
+                id: $0.event.id.uuidString,
                 title: $0.event.title,
                 date: $0.event.date.ISO8601Format(),
-                source: source
+                source: source,
+                responses: $0.event.responses.summary
             )
         }
     }
@@ -76,10 +83,11 @@ class EventsListViewModel: NSObject, ObservableObject {
     func addEvent(title: String, date: Date) {
         eventsManager.createEvent(
             .init(
+                id: .init(),
                 title: title,
                 date: date,
                 lastUpdate: .now,
-                responses: [.init(responderID: userUUID, going: .going)],
+                responses: [.init(responderID: userUUID, going: .host, lastUpdate: .now)],
                 creatorID: userUUID
             )
         )
@@ -94,6 +102,12 @@ class EventsListViewModel: NSObject, ObservableObject {
     func searchTapped() {
         nearbyManager.searchForNearbyDevices()
     }
+    
+    func eventTapped(_ item: EventListItem) {     
+        guard let event = (eventsManager.myCurrentEvents + eventsManager.receivedEvents.map { $0.event })
+            .first(where: { $0.id.uuidString == item.id }) else { return }
+        detailViewModel = .init(event: event, friendManager: friendsManager, eventManager: eventsManager)
+    }
 }
 
 struct EventListItemView: View {
@@ -104,6 +118,8 @@ struct EventListItemView: View {
             VStack(alignment: .leading) {
                 Text(event.title)
                 Text(event.date)
+                    .font(.footnote)
+                Text(event.responses)
                     .font(.footnote)
             }
             
@@ -123,7 +139,12 @@ struct EventsList: View {
             List {
                 Section("Mine") {
                     ForEach(viewModel.myEvents) { event in
-                        EventListItemView(event: event)
+                        Button {
+                            viewModel.eventTapped(event)
+                        } label: {
+                            EventListItemView(event: event)
+                        }
+                        .buttonStyle(PlainButtonStyle())
                     }
                     
                     Button("Add Event") {
@@ -133,7 +154,12 @@ struct EventsList: View {
                 
                 Section("Others'") {
                     ForEach(viewModel.othersEvents) { event in
-                        EventListItemView(event: event)
+                        Button {
+                            viewModel.eventTapped(event)
+                        } label: {
+                            EventListItemView(event: event)
+                        }
+                        .buttonStyle(PlainButtonStyle())
                     }
                 }
             }
@@ -154,6 +180,9 @@ struct EventsList: View {
                 viewModel.addEvent(title: $0.0, date: $0.1)
                 showAddEvent = false
             }
+        }
+        .sheet(item: $viewModel.detailViewModel) { viewModel in
+            EventDetailView(viewModel: viewModel)
         }
     }
 }
