@@ -7,6 +7,7 @@
 
 import Foundation
 import Combine
+import UIKit
 
 struct Friend: Codable, Equatable {
     let name: String
@@ -24,47 +25,108 @@ enum FriendsManagerError: Error {
 ///         - Receiving data
 ///     - Adding new friends
 class FriendsManager {
-    static var shared: FriendsManager = .init(bluetoothManager: .shared, cryptoManager: .shared, eventsManager: .shared)
     
-    let bluetoothManager: BluetoothManager
+    let nearbyManager: NearbyConnectionManager
+    var dataManager: DataConnectionManager
     let cryptoManager: CryptoManager
     let eventsManager: EventsManager
     
-    @UserDefaultable(key: .userUUID) var userUUID: UUID = .init()
-    @UserDefaultable(key: .friends) var friends: [Friend] = []
+    @UserDefaultable(key: .userUUID) var userUUID: String = UUID().uuidString
+    @Published  var friends: [Friend] = UserDefaults.standard.decodable(for: .friends) ?? [] {
+        didSet {
+            UserDefaults.standard.set(data: friends.encoded(), for: .friends)
+        }
+    }
     
+    var connectableDevices: [Device] = []
     var cancellables: Set<AnyCancellable> = .init()
     
-    init(bluetoothManager: BluetoothManager, cryptoManager: CryptoManager, eventsManager: EventsManager) {
-        self.bluetoothManager = bluetoothManager
+    init(dataManager: DataConnectionManager, cryptoManager: CryptoManager, eventsManager: EventsManager, nearbyManager: NearbyConnectionManager) {
+        self.nearbyManager = nearbyManager
+        self.dataManager = dataManager
         self.cryptoManager = cryptoManager
         self.eventsManager = eventsManager
         
-        self.bluetoothManager.sendDataHandler = {
-            return eventsManager.eventsToShare.encoded()
+        self.dataManager.onInviteHandler = { [weak self] id, completion in
+            self?.onInvite(id: id, completion: completion)
         }
         
-        self.bluetoothManager.receiveDataHandler = { (uuid: UUID, data: Data) in
+        self.dataManager.onConnectHandler = { [weak self] in
+            guard let self = self else { return }
+            self.nearbyManager.initiateConnection(with: $0)
+            self.dataManager.writeData(eventsManager.eventsToShare.encoded(), to: $0).sink(receiveCompletion: { _ in
+                //
+            }, receiveValue: { _ in
+                //
+            })
+            .store(in: &self.cancellables)
+        }
+//
+        self.dataManager.receiveDataHandler = { (uuid: String, data: Data) in
             guard let events = try? data.decoded(as: [Event].self), let friend = self.friend(for: uuid) else { return }
             self.eventsManager.didReceiveEvents(events, from: friend)
         }
         
-//        // Sharing data when new devices are nearby
-        self.bluetoothManager.$devices.didSet
-            .map { [unowned self] in self.filterFriends(from: $0) }
-            .flatMap { [unowned self] in
-                self.getEvents(from: $0)
-                    .replaceError(with: ())
+        self.nearbyManager.nearbyDevices.didSet.sink { nearDevices in
+            nearDevices.filter { self.connectableDevices.contains($0) == false }.forEach {
+                self.nearbyManager.initiateConnection(with: $0)
             }
-            .sink(receiveCompletion: { _ in }, receiveValue: { _ in })
-            .store(in: &cancellables)
+        }
+        .store(in: &cancellables)
+
+        self.dataManager.connectableDevices.didSet.flatMap { (devices: [Device]) -> AnyPublisher<Void, Error> in
+            self.connectableDevices = devices
+            return self.shareEventsWithNearbyFriends().eraseToAnyPublisher()
+        }.sink { _ in
+            //
+        } receiveValue: { _ in
+            //
+        }.store(in: &cancellables)
     }
     
-    func addFriend(for id: UUID, with name: String, and device: Device) {
+    private func getName(for id: String) {
+        let alert = UIAlertController(title: "What's their name?", message: nil, preferredStyle: .alert)
+        alert.addTextField()
+        alert.addAction(.init(title: "Cancel", style: .cancel, handler: nil))
+        alert.addAction(.init(title: "Add", style: .default, handler: { action in
+            guard let name = alert.textFields?.first?.text else { return }
+            self.addFriend(for: id, with: name, and: .init(id: id))
+        }))
+        
+        UIApplication.shared.showAlert(alert)
+    }
+    
+    private func onInvite(id: String, completion: @escaping (Bool) -> Void) {
+        
+        if friend(for: id) != nil {
+            completion(true)
+        } else {
+            let appName = Bundle.main.infoDictionary?["CFBundleName"] as? String ?? "Invitation Received"
+
+            let ac = UIAlertController(title: appName, message: "'\(id)' wants to connect.", preferredStyle: .alert)
+            let declineAction = UIAlertAction(title: "Decline", style: .cancel) { _ in
+                completion(false)
+            }
+            let acceptAction = UIAlertAction(title: "Accept", style: .default) { [weak self] _ in
+                completion(true)
+                
+                ac.dismiss(animated: true) {
+                    self?.getName(for: id)
+                }
+            }
+            
+            ac.addAction(declineAction)
+            ac.addAction(acceptAction)
+            
+            UIApplication.shared.showAlert(ac)
+        }
+    }
+    
+    func addFriend(for id: String, with name: String, and device: Device) {
         friends.append(Friend(name: name, device: device, publicKey: "TODO"))
     }
     
-    func friend(for id: UUID) -> Friend? {
+    func friend(for id: String) -> Friend? {
         friends.first(where: { $0.device.id == id })
     }
     
@@ -72,35 +134,16 @@ class FriendsManager {
         return devices.compactMap { friend(for: $0.id) }
     }
     
-    private func getEvents(from nearbyFriends: [Friend]) -> AnyPublisher<Void, Error> {
-         return Publishers.MergeMany(nearbyFriends.map { friend in
-            self.bluetoothManager.readData(from: friend.device).flatMap { (data) -> AnyPublisher<Void, Error> in
-                let decryptedData = self.cryptoManager.decryptData(data, using: friend.publicKey)
-                
-                do {
-                    let events = try decryptedData.decoded(as: [Event].self)
-                    self.eventsManager.didReceiveEvents(events, from: friend)
-                    
-                    return Just(())
-                        .setFailureType(to: Error.self)
-                        .eraseToAnyPublisher()
-                } catch {
-                    return Fail(error: error)
-                        .eraseToAnyPublisher()
-                }
-            }
-        }).eraseToAnyPublisher()
-    }
-    
     func shareEventsWithNearbyFriends() -> AnyPublisher<Void, Error> {
-        let nearbyFriends = self.filterFriends(from: bluetoothManager.devices)
-        let events = eventsManager.eventsToShare.map { $0.encoded() }
+        let nearbyFriends = self.filterFriends(from: connectableDevices)
+        
+        guard !nearbyFriends.isEmpty else {
+            return Just(()).setFailureType(to: Error.self).eraseToAnyPublisher()
+        }
+        
+        let events = eventsManager.eventsToShare.encoded()
 
-        return Publishers.MergeMany(nearbyFriends.map { friend in
-            self.bluetoothManager.writeData(events, to: friend.device)
-        })
-        .eraseToAnyPublisher()
-//        return Just(()).setFailureType(to: Error.self).eraseToAnyPublisher()
+        return self.dataManager.writeData(events, to: nearbyFriends.first!.device).eraseToAnyPublisher()
     }
     
     func clearAllData() {

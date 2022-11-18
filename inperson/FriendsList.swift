@@ -10,41 +10,50 @@ import Combine
 
 struct FriendListItem: Identifiable {
     let name: String?
-    let id: UUID
+    let id: String
     var isFriend: Bool { name != nil }
 }
 
 class FriendsListViewModel: NSObject, ObservableObject {
-    let friendsManager: FriendsManager = .shared
-    let bluetoothManager: BluetoothManager = .shared
+    let friendsManager: FriendsManager
+    let nearbyManager: NearbyConnectionManager
     
-    @Published var nearbyDevices: [FriendListItem] = []
+    @Published private var nearbyDevices: [Device] = []
+    @Published var nearbyPeople: [FriendListItem] = []
     @Published var otherFriends: [FriendListItem] = []
     
     @Published var isScanning: Bool = false
     
     var cancellables: Set<AnyCancellable> = .init()
     
-    override init() {
+    init(friendsManager: FriendsManager, nearbyManager: NearbyConnectionManager) {
+        self.friendsManager = friendsManager
+        self.nearbyManager = nearbyManager
+        
         super.init()
         
-        bluetoothManager.$isScanning.sink {
+        nearbyManager.isScanning.sink {
             self.isScanning = $0
-        }
-        .store(in: &cancellables)
+        }.store(in: &cancellables)
         
-        bluetoothManager.$devices.receive(on: RunLoop.main).sink { peripherals in
+        nearbyManager.nearbyDevices.didSet.receive(on: RunLoop.main).sink { peripherals in
+            self.nearbyDevices = peripherals
             self.reload()
         }
         .store(in: &cancellables)
         
-        bluetoothManager.scanForDevices()
+        friendsManager.$friends.didSet.sink { friends in
+            self.reload()
+        }
+        .store(in: &cancellables)
+        
+        nearbyManager.searchForNearbyDevices()
         
         reload()
     }
     
     private func reload() {
-        nearbyDevices = self.bluetoothManager.devices.map {
+        nearbyPeople = nearbyDevices.map {
             .init(name: self.friendsManager.friend(for: $0.id)?.name, id: $0.id)
         }
         
@@ -55,10 +64,16 @@ class FriendsListViewModel: NSObject, ObservableObject {
         }
     }
     
-    func addFriend(_ uuid: UUID, name: String, device: Device) {
+    func addFriend(_ uuid: String) {
         guard friendsManager.friend(for: uuid) == nil else { return }
-        friendsManager.addFriend(for: uuid, with: name, and: device)
+//        friendsManager.addFriend(for: uuid, with: name, and: device)
+        
+        nearbyManager.initiateConnection(with: .init(id: uuid))
         reload()
+    }
+    
+    func searchTapped() {
+        nearbyManager.searchForNearbyDevices()
     }
 }
 
@@ -71,11 +86,11 @@ struct FriendListItemView: View {
             if let name = item.name {
                 VStack(alignment: .leading) {
                     Text(name)
-                    Text(item.id.uuidString)
+                    Text(item.id)
                         .font(.footnote)
                 }
             } else {
-                Text(item.id.uuidString)
+                Text(item.id)
             }
             
             Spacer()
@@ -89,17 +104,16 @@ struct FriendListItemView: View {
     }
 }
 struct FriendsList: View {
-    @StateObject var viewModel: FriendsListViewModel = .init()
-    @State var addDialogID: UUID?
+    @StateObject var viewModel: FriendsListViewModel
+    @State var addDialogID: String?
     @State var showingAddDialog: Bool = false
     
     var body: some View {
         List {
             Section("Nearby") {
-                ForEach(viewModel.nearbyDevices) { row in
+                ForEach(viewModel.nearbyPeople) { row in
                     FriendListItemView(item: row) {
-                        addDialogID = row.id
-                        showingAddDialog = true
+                        viewModel.addFriend(row.id)
                     }
                 }
             }
@@ -113,13 +127,9 @@ struct FriendsList: View {
                 }
             }
         }
-        .alert(isPresented: $showingAddDialog, TextAlert(title: "What's their name?", action: {
-            guard let addDialogID = addDialogID, let name = $0 else { return }
-            viewModel.addFriend(addDialogID, name: name, device: .init(id: addDialogID))
-        }))
         .toolbar {
             Button {
-                BluetoothManager.shared.scanForDevices()
+                viewModel.searchTapped()
             } label: {
                 Circle().foregroundColor(viewModel.isScanning ? .green : .red)
             }

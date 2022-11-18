@@ -51,7 +51,7 @@ class BluetoothCentralManager {
 //                    let uuid = UUID(uuidString: identifier)
 //                else { return }
                                 
-                let deviceID = peripheral.identifier
+                let deviceID = peripheral.identifier.uuidString
                 
                 if self.peripherals.contains(where: { $0.device.id == deviceID }) == false {
                     self.peripherals.append((.init(id: deviceID), peripheral))

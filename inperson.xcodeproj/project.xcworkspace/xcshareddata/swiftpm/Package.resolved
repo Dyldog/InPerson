@@ -1,6 +1,15 @@
 {
   "pins" : [
     {
+      "identity" : "multipeer",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/dingwilson/MultiPeer",
+      "state" : {
+        "revision" : "77914e66c16088f8dbf153423d2dafc288d8bcb7",
+        "version" : "0.2.0"
+      }
+    },
+    {
       "identity" : "swiftybluetooth",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/jordanebelanger/SwiftyBluetooth",

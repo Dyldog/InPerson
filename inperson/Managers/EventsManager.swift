@@ -14,7 +14,7 @@ enum Attendance: Codable, Equatable {
 }
 
 struct Response: Codable, Equatable {
-    let responder: UUID
+    let responderID: String
     let going: Attendance
 }
 
@@ -23,7 +23,7 @@ struct Event: Codable, Equatable {
     let date: Date
     let lastUpdate: Date
     let responses: [Response]
-    let creator: UUID
+    let creatorID: String
     
     func received(from friend: Friend) -> ReceivedEvent {
         .init(event: self, sender: friend)
@@ -39,7 +39,6 @@ struct ReceivedEvent: Codable, Equatable {
 ///     - Storing created and received events
 ///     - Creating and editing events
 class EventsManager {
-    static var shared: EventsManager = .init()
     
     @UserDefaultable(key: .userCreatedEvents) private(set) var myCurrentEvents: [Event] = [] {
         didSet { reload() }
@@ -47,8 +46,6 @@ class EventsManager {
     @UserDefaultable(key: .receivedEvents) private(set) var receivedEvents: [ReceivedEvent] = [] {
         didSet { reload() }
     }
-    
-    @UserDefaultable(key: .userUUID) var userUUID: UUID = .init()
     
     @Published var eventsToShare: [Event] = []
     
@@ -80,7 +77,7 @@ class EventsManager {
             .filter { myCurrentEvents.contains($0) == false } // Ignore ones we created
             .forEach { received in
                 // If it's our event, we need to be more careful with how we update it
-                if received.creator == userUUID {
+                if received.creatorID == userUUID {
                     // TODO: Update own event
                 } else if let existing = existingReceivedVersion(of: received) {
                     // If it exists, update it if our copy is newer

@@ -28,6 +28,9 @@
 		110C04D32923795C00DCEDA3 /* TextFieldAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 110C04D22923795C00DCEDA3 /* TextFieldAlert.swift */; };
 		110C04D629237E0600DCEDA3 /* AddEventView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 110C04D529237E0600DCEDA3 /* AddEventView.swift */; };
 		110C04D8292393F000DCEDA3 /* DebugView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 110C04D7292393F000DCEDA3 /* DebugView.swift */; };
+		119424C9292716EA00391BDA /* MultiPeerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 119424C8292716EA00391BDA /* MultiPeerManager.swift */; };
+		119424CC292719FF00391BDA /* MultiPeer in Frameworks */ = {isa = PBXBuildFile; productRef = 119424CB292719FF00391BDA /* MultiPeer */; };
+		119424D0292722FF00391BDA /* ExternalAccessory.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 119424CF292722FF00391BDA /* ExternalAccessory.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -72,6 +75,9 @@
 		110C04D529237E0600DCEDA3 /* AddEventView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddEventView.swift; sourceTree = "<group>"; };
 		110C04D7292393F000DCEDA3 /* DebugView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugView.swift; sourceTree = "<group>"; };
 		11310892292482C3005BD485 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		119424C8292716EA00391BDA /* MultiPeerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiPeerManager.swift; sourceTree = "<group>"; };
+		119424CD292722FE00391BDA /* inperson.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = inperson.entitlements; sourceTree = "<group>"; };
+		119424CF292722FF00391BDA /* ExternalAccessory.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ExternalAccessory.framework; path = System/Library/Frameworks/ExternalAccessory.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,6 +85,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				119424D0292722FF00391BDA /* ExternalAccessory.framework in Frameworks */,
+				119424CC292719FF00391BDA /* MultiPeer in Frameworks */,
 				110C04CB2923544B00DCEDA3 /* SwiftyBluetooth in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -107,6 +115,7 @@
 				110C049A29231F0F00DCEDA3 /* inpersonTests */,
 				110C04A429231F0F00DCEDA3 /* inpersonUITests */,
 				110C048829231F0D00DCEDA3 /* Products */,
+				119424CE292722FF00391BDA /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -123,6 +132,7 @@
 		110C048929231F0D00DCEDA3 /* inperson */ = {
 			isa = PBXGroup;
 			children = (
+				119424CD292722FE00391BDA /* inperson.entitlements */,
 				11310892292482C3005BD485 /* Info.plist */,
 				110C048A29231F0D00DCEDA3 /* inpersonApp.swift */,
 				110C04C0292326D300DCEDA3 /* User Defaults */,
@@ -182,8 +192,17 @@
 				110C04B82923201D00DCEDA3 /* CryptoManager.swift */,
 				110C04B629231F5C00DCEDA3 /* FriendsManager.swift */,
 				110C04C1292326DD00DCEDA3 /* EventsManager.swift */,
+				119424C8292716EA00391BDA /* MultiPeerManager.swift */,
 			);
 			path = Managers;
+			sourceTree = "<group>";
+		};
+		119424CE292722FF00391BDA /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				119424CF292722FF00391BDA /* ExternalAccessory.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -204,6 +223,7 @@
 			name = inperson;
 			packageProductDependencies = (
 				110C04CA2923544B00DCEDA3 /* SwiftyBluetooth */,
+				119424CB292719FF00391BDA /* MultiPeer */,
 			);
 			productName = inperson;
 			productReference = 110C048729231F0D00DCEDA3 /* inperson.app */;
@@ -279,6 +299,7 @@
 			mainGroup = 110C047E29231F0D00DCEDA3;
 			packageReferences = (
 				110C04C92923544B00DCEDA3 /* XCRemoteSwiftPackageReference "SwiftyBluetooth" */,
+				119424CA292719FF00391BDA /* XCRemoteSwiftPackageReference "MultiPeer" */,
 			);
 			productRefGroup = 110C048829231F0D00DCEDA3 /* Products */;
 			projectDirPath = "";
@@ -325,6 +346,7 @@
 				110C04CF29236E9A00DCEDA3 /* BluetoothCentralManager.swift in Sources */,
 				110C04D629237E0600DCEDA3 /* AddEventView.swift in Sources */,
 				110C04CD29235EC200DCEDA3 /* BluetoothPeripheralManager.swift in Sources */,
+				119424C9292716EA00391BDA /* MultiPeerManager.swift in Sources */,
 				110C048D29231F0D00DCEDA3 /* FriendsList.swift in Sources */,
 				110C04B729231F5C00DCEDA3 /* FriendsManager.swift in Sources */,
 				110C04D1292370F600DCEDA3 /* EventsList.swift in Sources */,
@@ -492,6 +514,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = inperson/inperson.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"inperson/Preview Content\"";
@@ -500,6 +523,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = inperson/Info.plist;
 				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = Yeah;
+				INFOPLIST_KEY_NSLocalNetworkUsageDescription = Hello;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -524,6 +548,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = inperson/inperson.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"inperson/Preview Content\"";
@@ -532,6 +557,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = inperson/Info.plist;
 				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = Yeah;
+				INFOPLIST_KEY_NSLocalNetworkUsageDescription = Hello;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -677,6 +703,14 @@
 				minimumVersion = 3.0.0;
 			};
 		};
+		119424CA292719FF00391BDA /* XCRemoteSwiftPackageReference "MultiPeer" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/dingwilson/MultiPeer";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.2.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -684,6 +718,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 110C04C92923544B00DCEDA3 /* XCRemoteSwiftPackageReference "SwiftyBluetooth" */;
 			productName = SwiftyBluetooth;
+		};
+		119424CB292719FF00391BDA /* MultiPeer */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 119424CA292719FF00391BDA /* XCRemoteSwiftPackageReference "MultiPeer" */;
+			productName = MultiPeer;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

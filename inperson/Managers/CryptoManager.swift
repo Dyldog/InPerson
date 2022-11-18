@@ -13,9 +13,7 @@ import Foundation
 ///     - Encrypting data (i.e: with app's private key)
 ///     - Decrypting data (i.e: with a given friend's public key)
 class CryptoManager {
-    
-    static var shared: CryptoManager = .init()
-    
+        
     @UserDefaultable(key: .userPrivateKey) private var userPrivateKey: String! = nil
     @UserDefaultable(key: .userPublicKey) private(set) var userPublicKey: String! = nil
     

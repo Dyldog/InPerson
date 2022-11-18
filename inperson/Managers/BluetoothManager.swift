@@ -13,7 +13,7 @@ import SwiftyBluetooth
 /// Represents another user's device
 struct Device: Codable, Equatable {
     /// Used to identify the device
-    let id: UUID
+    let id: String
 }
 
 enum BluetoothError: Error {
@@ -25,10 +25,8 @@ enum BluetoothError: Error {
 ///     - Searching for other devices
 ///     - Alerting when devices come into contact
 ///     - Sending data via bluetooth to other devices
-class BluetoothManager: NSObject {
-    
-    static var shared: BluetoothManager = .init()
-    
+class BluetoothManager: NSObject, NearbyConnectionManager, DataConnectionManager {
+        
     static let serviceUUID = "F28BF684-DCA1-4950-A3E3-3CB0A5CDE8F8"
     static let characteristicUUID = "7F3B6E66-657F-4157-96AD-6358E6015D00"
     
@@ -41,20 +39,29 @@ class BluetoothManager: NSObject {
         characteristic: BluetoothManager.characteristicUUID
     )
     
+    var onInviteHandler: ((String, @escaping (Bool) -> Void) -> Void)?
+    var onConnectHandler: ((Device) -> Void)?
+    
     var sendDataHandler: (() -> Data)? {
         get { peripheralManager.onRequest }
         set { peripheralManager.onRequest = newValue }
     }
     
-    var receiveDataHandler: ((UUID, Data) -> Void)? {
+    var receiveDataHandler: ((String, Data) -> Void)? {
         get { peripheralManager.onWriteRequest }
         set { peripheralManager.onWriteRequest = newValue }
     }
     
     // MARK: - Public properties
     
-    @Published var devices: [Device] = []
-    @Published var isScanning: Bool = false
+    var nearbyDevicesPublisher: CurrentValueSubject<[Device], Never> = CurrentValueSubject([])
+    var nearbyDevices: AnyPublisher<[Device], Never> {
+        nearbyDevicesPublisher.setFailureType(to: Never.self).eraseToAnyPublisher()
+    }
+    
+    var connectableDevices: AnyPublisher<[Device], Never> { nearbyDevices }
+    var scanningPublisher: CurrentValueSubject<Bool, Never> = CurrentValueSubject(false)
+    var isScanning: AnyPublisher<Bool, Never> { scanningPublisher.eraseToAnyPublisher() }
     
     var cancellables: Set<AnyCancellable> = .init()
     
@@ -62,17 +69,21 @@ class BluetoothManager: NSObject {
         super.init()
         
         centralManager.$isScanning.sink {
-            self.isScanning = $0
+            self.scanningPublisher.value = $0
         }
         .store(in: &cancellables)
         
         centralManager.$peripherals.sink { peripherals in
-            self.devices = peripherals.map { $0.device }
+            self.nearbyDevicesPublisher.value = peripherals.map { $0.device }
         }.store(in: &cancellables)
     }
     
-    func scanForDevices() {
+    func searchForNearbyDevices() {
         centralManager.scanForDevices()
+    }
+    
+    func initiateConnection(with device: Device) {
+        //
     }
     
     func readData(from device: Device) -> AnyPublisher<Data, Error> {
@@ -86,26 +97,29 @@ class BluetoothManager: NSObject {
             .eraseToAnyPublisher()
     }
     
-    func writeData(_ data: [Data], to device: Device) -> AnyPublisher<Void, Error> {
+    func writeData(_ data: Data, to device: Device) -> AnyPublisher<Void, Error> {
         centralManager.stopScanning()
         
         return centralManager.connect(to: device)
             .flatMap { peripheral in
-                data.reduce(Just(()).setFailureType(to: Error.self).eraseToAnyPublisher()) { partialResult, data in
-                    partialResult.flatMap {
-                        self.centralManager
-                            .writeDataCharacteristic(data, to: device.id)
-                            .eraseToAnyPublisher()
-                    }
+//                data.reduce(Just(()).setFailureType(to: Error.self).eraseToAnyPublisher()) { partialResult, data in
+//                    partialResult.flatMap {
+//                        self.centralManager
+//                            .writeDataCharacteristic(data, to: UUID(uuidString: device.id)!)
+//                            .eraseToAnyPublisher()
+//                    }
+//                    .eraseToAnyPublisher()
+//                }
+                self.centralManager
+                    .writeDataCharacteristic(data, to: UUID(uuidString: device.id)!)
                     .eraseToAnyPublisher()
-                }
             }
             .flatMap { _ in
                 self.centralManager.disconnect(from: device)
             }
             .flatMap {
                 Future { promise in
-                    self.scanForDevices()
+                    self.searchForNearbyDevices()
                     promise(.success(()))
                 }
                 .setFailureType(to: Error.self)
@@ -115,8 +129,8 @@ class BluetoothManager: NSObject {
     }
 }
 
-extension Published.Publisher {
-    var didSet: AnyPublisher<Value, Never> {
+extension Publisher where Failure == Never {
+    var didSet: AnyPublisher<Output, Never> {
         self.receive(on: RunLoop.main).eraseToAnyPublisher()
     }
 }

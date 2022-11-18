@@ -18,8 +18,8 @@ class BluetoothPeripheralManager: NSObject {
     private var peripheralManager : CBPeripheralManager!
     
     var onRequest: (() -> Data)?
-    var onWriteRequest: ((UUID, Data) -> Void)?
-    @UserDefaultable(key: .userUUID) var advertisementID: UUID = .init()
+    var onWriteRequest: ((String, Data) -> Void)?
+    var advertisementID: String = userUUID
     
     init(service: String, characteristic: String) {
         self.serviceUUID = service
@@ -51,7 +51,7 @@ class BluetoothPeripheralManager: NSObject {
     
     func startAdvertising() {
         peripheralManager.startAdvertising([
-            CBAdvertisementDataLocalNameKey : advertisementID.uuidString,
+            CBAdvertisementDataLocalNameKey : advertisementID,
             CBAdvertisementDataServiceUUIDsKey : [service],
         ])
         print("Started Advertising")
@@ -87,7 +87,7 @@ extension BluetoothPeripheralManager: CBPeripheralManagerDelegate {
     func peripheralManager(_ peripheral: CBPeripheralManager, didReceiveWrite requests: [CBATTRequest]) {
         requests.forEach {
             if let data = $0.value, let id = $0.characteristic.service?.peripheral?.identifier {
-                onWriteRequest?(id, data)
+                onWriteRequest?(id.uuidString, data)
             }
         }
     }

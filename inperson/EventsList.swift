@@ -16,10 +16,12 @@ struct EventListItem: Identifiable {
     let source: String
 }
 
+var userUUID: String = UIDevice.current.identifierForVendor?.uuidString ?? "ERROR!!!"
+
 class EventsListViewModel: NSObject, ObservableObject {
-    let friendsManager: FriendsManager = .shared
-    let eventsManager: EventsManager = .shared
-    let bluetoothManager: BluetoothManager = .shared
+    let friendsManager: FriendsManager
+    let eventsManager: EventsManager
+    let nearbyManager: NearbyConnectionManager
     
     @Published var myEvents: [EventListItem] = []
     @Published var othersEvents: [EventListItem] = []
@@ -27,15 +29,16 @@ class EventsListViewModel: NSObject, ObservableObject {
     @Published var isScanning: Bool = false
     var cancellables: Set<AnyCancellable> = .init()
     
-    @UserDefaultable(key: .userUUID) var userUUID: UUID = .init()
-    
-    override init() {
+    init(friendsManager: FriendsManager, eventsManager: EventsManager, nearbyManager: NearbyConnectionManager) {
+        self.friendsManager = friendsManager
+        self.eventsManager = eventsManager
+        self.nearbyManager = nearbyManager
+        
         super.init()
         
-        bluetoothManager.$isScanning.sink {
+        nearbyManager.isScanning.sink {
             self.isScanning = $0
-        }
-        .store(in: &cancellables)
+        }.store(in: &cancellables)
         
         eventsManager.$eventsToShare.receive(on: RunLoop.main).sink(receiveValue: { _ in
             self.reload()
@@ -53,10 +56,10 @@ class EventsListViewModel: NSObject, ObservableObject {
         }
         
         othersEvents = eventsManager.receivedEvents.map {
-            let creator = friendsManager.friend(for: $0.event.creator)
-            let creatorUUID = creator?.device.id ?? $0.event.creator
+            let creator = friendsManager.friend(for: $0.event.creatorID)
+            let creatorUUID = creator?.device.id ?? $0.event.creatorID
             
-            var source = "Created by \(creator?.name ?? creatorUUID.uuidString)"
+            var source = "Created by \(creator?.name ?? creatorUUID)"
             
             if creatorUUID != $0.sender.device.id {
                 source += "\nReceived from \($0.sender.name)"
@@ -76,8 +79,8 @@ class EventsListViewModel: NSObject, ObservableObject {
                 title: title,
                 date: date,
                 lastUpdate: .now,
-                responses: [.init(responder: userUUID, going: .going)],
-                creator: userUUID
+                responses: [.init(responderID: userUUID, going: .going)],
+                creatorID: userUUID
             )
         )
         
@@ -86,6 +89,10 @@ class EventsListViewModel: NSObject, ObservableObject {
     
     func sendEvents() {
         friendsManager.shareEventsWithNearbyFriends().sink { _ in } receiveValue: { _ in }.store(in: &cancellables)
+    }
+    
+    func searchTapped() {
+        nearbyManager.searchForNearbyDevices()
     }
 }
 
@@ -108,7 +115,7 @@ struct EventListItemView: View {
 }
 
 struct EventsList: View {
-    @StateObject var viewModel: EventsListViewModel = .init()
+    @StateObject var viewModel: EventsListViewModel
     @State var showAddEvent: Bool = false
     
     var body: some View {
@@ -137,7 +144,7 @@ struct EventsList: View {
         }
         .toolbar {
             Button {
-                BluetoothManager.shared.scanForDevices()
+                viewModel.searchTapped()
             } label: {
                 Circle().foregroundColor(viewModel.isScanning ? .green : .red)
             }

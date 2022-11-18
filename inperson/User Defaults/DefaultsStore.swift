@@ -12,6 +12,7 @@ var SharedDefaults: DefaultsStore { UserDefaults.standard }
 protocol DefaultsStore {
     func set(data: Data?, for key: DefaultsKey)
     func data(for key: DefaultsKey) -> Data?
+    func decodable<T: Decodable>(for key: DefaultsKey) -> T?
     @discardableResult func synchronize() -> Bool
 }
 
@@ -32,6 +33,12 @@ extension NSUbiquitousKeyValueStore: DefaultsStore {
     
     func set(data: Data?, for key: DefaultsKey) {
         set(data, forKey: key.rawValue)
+    }
+}
+
+extension DefaultsStore {
+    func decodable<T>(for key: DefaultsKey) -> T? where T : Decodable {
+        try? data(for: key)?.decoded(as: T.self)
     }
 }
 
