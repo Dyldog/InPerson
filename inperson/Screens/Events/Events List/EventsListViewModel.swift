@@ -9,16 +9,23 @@ import Foundation
 import Combine
 
 class EventsListViewModel: NSObject, ObservableObject {
-    let friendsManager: FriendsManager
-    let eventsManager: EventsManager
-    let nearbyManager: NearbyConnectionManager
+    
+    private let friendsManager: FriendsManager
+    private let eventsManager: EventsManager
+    private let nearbyManager: NearbyConnectionManager
+    
+    private let dateFormatter: RelativeDateTimeFormatter = {
+        let formatter = RelativeDateTimeFormatter()
+        return formatter
+    }()
+    
+    private var cancellables: Set<AnyCancellable> = .init()
     
     @Published var myEvents: [EventListItem] = []
     @Published var othersEvents: [EventListItem] = []
+    @Published var pastEvents: [EventListItem] = []
     
     @Published var isScanning: Bool = false
-    var cancellables: Set<AnyCancellable> = .init()
-    
     @Published var detailViewModel: EventDetailViewModel?
     
     init(friendsManager: FriendsManager, eventsManager: EventsManager, nearbyManager: NearbyConnectionManager) {
@@ -43,7 +50,7 @@ class EventsListViewModel: NSObject, ObservableObject {
             .init(
                 id: $0.id.uuidString,
                 title: $0.title,
-                date: $0.date.ISO8601Format(),
+                date: dateFormatter.string(for: $0.date) ?? .empty,
                 source: "Created by me",
                 responses: $0.responses.summary
             )
@@ -62,9 +69,24 @@ class EventsListViewModel: NSObject, ObservableObject {
            return .init(
                 id: $0.event.id.uuidString,
                 title: $0.event.title,
-                date: $0.event.date.ISO8601Format(),
+                date: dateFormatter.string(for: $0.event.date) ?? .empty,
                 source: source,
                 responses: $0.event.responses.summary
+            )
+        }
+        
+        pastEvents = eventsManager.pastEvents.map {
+            let creator = friendsManager.friend(for: $0.creatorID)
+            let creatorUUID = creator?.device.id ?? $0.creatorID
+            
+            var source = "Created by \(creator?.name ?? creatorUUID)"
+            
+            return .init(
+                id: $0.id.uuidString,
+                title: $0.title,
+                date: dateFormatter.string(for: $0.date) ?? .empty,
+                source: source,
+                responses: $0.responses.pastSummary
             )
         }
     }

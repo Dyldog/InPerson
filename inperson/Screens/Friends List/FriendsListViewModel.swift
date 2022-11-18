@@ -9,16 +9,21 @@ import Foundation
 import Combine
 
 class FriendsListViewModel: NSObject, ObservableObject {
-    let friendsManager: FriendsManager
-    let nearbyManager: NearbyConnectionManager
+    private let friendsManager: FriendsManager
+    private let nearbyManager: NearbyConnectionManager
+    
+    private let dateFormatter: RelativeDateTimeFormatter = {
+        let formatter = RelativeDateTimeFormatter()
+        return formatter
+    }()
+    
+    private var cancellables: Set<AnyCancellable> = .init()
     
     @Published private var nearbyDevices: [Device] = []
     @Published var nearbyPeople: [FriendListItem] = []
     @Published var otherFriends: [FriendListItem] = []
     
     @Published var isScanning: Bool = false
-    
-    var cancellables: Set<AnyCancellable> = .init()
     
     init(friendsManager: FriendsManager, nearbyManager: NearbyConnectionManager) {
         self.friendsManager = friendsManager
@@ -48,13 +53,19 @@ class FriendsListViewModel: NSObject, ObservableObject {
     
     private func reload() {
         nearbyPeople = nearbyDevices.map {
-            .init(name: self.friendsManager.friend(for: $0.id)?.name, id: $0.id)
+            let friend = self.friendsManager.friend(for: $0.id)
+            
+            return .init(
+                name: friend?.name,
+                id: $0.id,
+                lastSeen: nil // They're within range, so we don't need the last seen
+            )
         }
         
         otherFriends = friendsManager.friends.filter { friend in
             nearbyDevices.contains(where: { $0.id == friend.device.id }) == false
         }.map {
-            .init(name: $0.name, id: $0.device.id)
+            .init(name: $0.name, id: $0.device.id, lastSeen: dateFormatter.string(for: $0.lastSeen))
         }
     }
     

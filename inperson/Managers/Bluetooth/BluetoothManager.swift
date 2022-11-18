@@ -59,7 +59,7 @@ class BluetoothManager: NSObject, NearbyConnectionManager, DataConnectionManager
         nearbyDevicesPublisher.setFailureType(to: Never.self).eraseToAnyPublisher()
     }
     
-    var connectableDevices: AnyPublisher<[Device], Never> { nearbyDevices }
+    var connectedDevices: AnyPublisher<[Device], Never> { nearbyDevices }
     var scanningPublisher: CurrentValueSubject<Bool, Never> = CurrentValueSubject(false)
     var isScanning: AnyPublisher<Bool, Never> { scanningPublisher.eraseToAnyPublisher() }
     

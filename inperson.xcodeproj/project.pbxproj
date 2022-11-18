@@ -52,6 +52,8 @@
 		1194250229278BEA00391BDA /* Friend.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1194250129278BEA00391BDA /* Friend.swift */; };
 		1194250429278C4000391BDA /* Data+Decoded.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1194250329278C4000391BDA /* Data+Decoded.swift */; };
 		1194250629278C4E00391BDA /* Encodable+Encoded.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1194250529278C4E00391BDA /* Encodable+Encoded.swift */; };
+		119425082927929E00391BDA /* String+Empty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 119425072927929E00391BDA /* String+Empty.swift */; };
+		1194250A2927962900391BDA /* Optional+Map.swift in Sources */ = {isa = PBXBuildFile; fileRef = 119425092927962900391BDA /* Optional+Map.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -120,6 +122,8 @@
 		1194250129278BEA00391BDA /* Friend.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Friend.swift; sourceTree = "<group>"; };
 		1194250329278C4000391BDA /* Data+Decoded.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+Decoded.swift"; sourceTree = "<group>"; };
 		1194250529278C4E00391BDA /* Encodable+Encoded.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Encodable+Encoded.swift"; sourceTree = "<group>"; };
+		119425072927929E00391BDA /* String+Empty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Empty.swift"; sourceTree = "<group>"; };
+		119425092927962900391BDA /* Optional+Map.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Optional+Map.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -254,6 +258,8 @@
 				119424D4292787FD00391BDA /* String+Identifiable.swift */,
 				119424E5292788F300391BDA /* String+Prefixing.swift */,
 				119424EF2927896F00391BDA /* Publisher+DidSet.swift */,
+				119425072927929E00391BDA /* String+Empty.swift */,
+				119425092927962900391BDA /* Optional+Map.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -510,10 +516,12 @@
 				110C048D29231F0D00DCEDA3 /* FriendsList.swift in Sources */,
 				119424E02927889B00391BDA /* EventsListViewModel.swift in Sources */,
 				119424F829278B8400391BDA /* AppViewModel.swift in Sources */,
+				119425082927929E00391BDA /* String+Empty.swift in Sources */,
 				119424E6292788F300391BDA /* String+Prefixing.swift in Sources */,
 				119424D22927543100391BDA /* EventDetailView.swift in Sources */,
 				110C04B729231F5C00DCEDA3 /* FriendsManager.swift in Sources */,
 				110C04D1292370F600DCEDA3 /* EventsList.swift in Sources */,
+				1194250A2927962900391BDA /* Optional+Map.swift in Sources */,
 				119424DA2927882B00391BDA /* FriendsListItemView.swift in Sources */,
 				119424E82927890300391BDA /* Data+ToString.swift in Sources */,
 				119424EE2927895300391BDA /* DebugViewModel.swift in Sources */,

@@ -15,6 +15,7 @@ struct Response: Codable, Equatable {
 
 extension Array where Element == Response {
     var summary: String { filter { $0.responderID != userUUID }.map { $0.going}.summary }
+    var pastSummary: String { filter { $0.responderID != userUUID }.map { $0.going}.pastSummary }
     
     func updating(with other: [Response]) -> [Response] {
         let existing = reduce(into: [:]) { partialResult, element in

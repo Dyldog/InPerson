@@ -39,4 +39,10 @@ extension Array where Element == Attendance {
         
         return strings.joined(separator: ", ")
     }
+    
+    var pastSummary: String {
+        let counts = Dictionary(grouping: self) { $0 }
+        
+        return "\(counts[.going]?.count ?? 0) people went"
+    }
 }

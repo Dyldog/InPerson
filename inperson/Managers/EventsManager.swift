@@ -18,6 +18,9 @@ class EventsManager {
     @UserDefaultable(key: .receivedEvents) private(set) var receivedEvents: [ReceivedEvent] = [] {
         didSet { reload() }
     }
+    @UserDefaultable(key: .pastEvents) private(set) var pastEvents: [Event] = [] {
+        didSet { reload() }
+    }
     
     @Published var eventsToShare: [Event] = []
     
@@ -26,7 +29,20 @@ class EventsManager {
     }
     
     private func reload() {
-        eventsToShare = myCurrentEvents + receivedEvents.map { $0.event }
+        let mine = myCurrentEvents.removingPastEvents()
+        let others = receivedEvents.splittingPastEvents()
+        
+        // Note: The didSets on `myCurrentEvents` and `receivedEvents` will trigger `reload()` to be
+        // called again
+        if !mine.past.isEmpty {
+            pastEvents.append(contentsOf: mine.past)
+            myCurrentEvents = mine.current
+        } else if !others.past.isEmpty {
+            pastEvents.append(contentsOf: others.past.map { $0.event })
+            receivedEvents = others.current
+        } else {
+            eventsToShare = myCurrentEvents + receivedEvents.map { $0.event }
+        }
     }
     func createEvent(_ event: Event) {
         myCurrentEvents.append(event)

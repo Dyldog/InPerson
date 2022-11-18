@@ -11,4 +11,5 @@ struct Friend: Codable, Equatable {
     let name: String
     let device: Device
     let publicKey: String
+    var lastSeen: Date
 }

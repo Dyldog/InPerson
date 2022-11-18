@@ -46,8 +46,8 @@ class FriendsManager {
         }
         
         self.dataManager.onConnectHandler = { [weak self] in
-            guard let self = self else { return }
-            self.nearbyManager.initiateConnection(with: $0)
+            guard let self = self, let friend = self.friend(for: $0.id) else { return }
+            self.updateLastSeen(for: friend)
             self.dataManager.writeData(eventsManager.eventsToShare.encoded(), to: $0).sink(receiveCompletion: { _ in
                 //
             }, receiveValue: { _ in
@@ -62,17 +62,22 @@ class FriendsManager {
         }
         
         self.nearbyManager.nearbyDevices.didSet.sink { nearDevices in
-            nearDevices.filter { self.connectableDevices.contains($0) == false }.forEach {
-                self.nearbyManager.initiateConnection(with: $0)
+            self.filterFriends(from: nearDevices).forEach {
+                self.nearbyManager.initiateConnection(with: $0.device)
             }
         }
         .store(in: &cancellables)
 
-        self.dataManager.connectableDevices.didSet.sink { _ in
+        self.dataManager.connectedDevices.didSet.sink { _ in
             //
         } receiveValue: { devices in
             self.connectableDevices = devices
         }.store(in: &cancellables)
+    }
+    
+    private func updateLastSeen(for friend: Friend) {
+        guard let index = friends.firstIndex(where: { $0.device.id == friend.device.id }) else { return }
+        friends[index].lastSeen = .now
     }
     
     private func getName(for id: String) {
@@ -89,7 +94,8 @@ class FriendsManager {
     
     private func onInvite(id: String, completion: @escaping (Bool) -> Void) {
         
-        if friend(for: id) != nil {
+        if let friend = friend(for: id) {
+            updateLastSeen(for: friend)
             completion(true)
         } else {
             let appName = Bundle.main.infoDictionary?["CFBundleName"] as? String ?? "Invitation Received"
@@ -114,7 +120,7 @@ class FriendsManager {
     }
     
     func addFriend(for id: String, with name: String, and device: Device) {
-        friends.append(Friend(name: name, device: device, publicKey: "TODO"))
+        friends.append(Friend(name: name, device: device, publicKey: "TODO", lastSeen: .now))
     }
     
     func friend(for id: String) -> Friend? {
@@ -127,14 +133,12 @@ class FriendsManager {
     
     func shareEventsWithNearbyFriends() -> AnyPublisher<Void, Error> {
         let nearbyFriends = self.filterFriends(from: connectableDevices)
-        
-        guard !nearbyFriends.isEmpty else {
-            return Just(()).setFailureType(to: Error.self).eraseToAnyPublisher()
-        }
-        
         let events = eventsManager.eventsToShare.encoded()
-
-        return self.dataManager.writeData(events, to: nearbyFriends.first!.device).eraseToAnyPublisher()
+        
+        return Publishers.MergeMany(nearbyFriends.map { friend in
+            return self.dataManager.writeData(events, to: friend.device)
+        })
+        .collect().map { _ in () }.eraseToAnyPublisher()
     }
     
     func clearAllData() {

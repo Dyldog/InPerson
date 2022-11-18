@@ -14,6 +14,7 @@ class DebugViewModel: NSObject, ObservableObject {
     
     @Published var debugEvents: [DebugEventInformation] = []
     private var cancellables: Set<AnyCancellable> = .init()
+    
     init(friendsManager: FriendsManager, eventsManager: EventsManager) {
         self.friendsManager = friendsManager
         self.eventsManager = eventsManager
@@ -26,12 +27,16 @@ class DebugViewModel: NSObject, ObservableObject {
         }.store(in: &cancellables)
     }
     
+    private func reload(events: [DebugEventInformation]) {
+        debugEvents = DebugManager.shared.events
+    }
+    
     func clear() {
         eventsManager.clearAllData()
         friendsManager.clearAllData()
     }
     
-    func reload(events: [DebugEventInformation]) {
-        debugEvents = DebugManager.shared.events
+    func forceSendEvents() {
+        friendsManager.shareEventsWithNearbyFriends().sink { _ in } receiveValue: { _ in }.store(in: &cancellables)
     }
 }

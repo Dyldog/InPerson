@@ -12,6 +12,7 @@ enum DefaultsKey: String, CaseIterable {
     case userPublicKey = "USER_PUBLIC_KEY"
     case userCreatedEvents = "USER_CREATED_EVENTS"
     case receivedEvents = "RECEIVED_EVENTS"
+    case pastEvents = "PAST_EVENTS"
     case friends = "FRIENDS"
     case userUUID = "USER_UUID"
 }

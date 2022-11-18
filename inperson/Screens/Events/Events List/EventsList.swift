@@ -42,10 +42,14 @@ struct EventsList: View {
                         .buttonStyle(PlainButtonStyle())
                     }
                 }
-            }
-            
-            Button("Send Events") {
-                viewModel.sendEvents()
+                
+                if !viewModel.pastEvents.isEmpty {
+                    Section("Past") {
+                        ForEach(viewModel.pastEvents) { event in
+                            EventListItemView(event: event)
+                        }
+                    }
+                }
             }
         }
         .toolbar {

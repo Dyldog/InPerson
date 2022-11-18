@@ -18,6 +18,10 @@ struct DebugView: View {
                 Button("Clear All Data") {
                     viewModel.clear()
                 }
+                
+                Button("Send Events") {
+                    viewModel.forceSendEvents()
+                }
             }
             Section {
                 ForEach(viewModel.debugEvents, id: \.self) { item in

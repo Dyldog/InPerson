@@ -30,3 +30,27 @@ struct Event: Codable {
         )
     }
 }
+
+extension Array {
+    func splittingPastEvents(by dateFunction: (Element) -> Date) -> (current: [Element], past: [Element]) {
+        let today = Calendar.autoupdatingCurrent.startOfDay(for: .now)
+        
+        var current: [Element] = []
+        var past: [Element] = []
+        
+        forEach {
+            if today <= dateFunction($0) {
+                current.append($0)
+            } else {
+                past.append($0)
+            }
+        }
+        
+        return (current, past)
+    }
+}
+extension Array where Element == Event {
+    func removingPastEvents() -> (current: [Event], past: [Event]) {
+        return splittingPastEvents(by: { $0.date })
+    }
+}

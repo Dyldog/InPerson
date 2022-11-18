@@ -15,3 +15,9 @@ struct ReceivedEvent: Codable {
         .init(event: event.updatingResponses(with: responses), sender: sender)
     }
 }
+
+extension Array where Element == ReceivedEvent {
+    func splittingPastEvents() -> (current: [ReceivedEvent], past: [ReceivedEvent]) {
+        return splittingPastEvents(by: { $0.event.date })
+    }
+}
