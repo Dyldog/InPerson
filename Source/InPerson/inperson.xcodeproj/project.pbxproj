@@ -76,6 +76,7 @@
 		E27DB1E32931BD8400C8D654 /* HTTPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27DB1DF2931BD8400C8D654 /* HTTPClient.swift */; };
 		E27DB1E42931BD8400C8D654 /* RequestType.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27DB1E02931BD8400C8D654 /* RequestType.swift */; };
 		E27DB1E62931BD9A00C8D654 /* PushService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27DB1E52931BD9A00C8D654 /* PushService.swift */; };
+		E27DB1E92931BF3300C8D654 /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27DB1E82931BF3300C8D654 /* Config.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -167,6 +168,7 @@
 		E27DB1DF2931BD8400C8D654 /* HTTPClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPClient.swift; sourceTree = "<group>"; };
 		E27DB1E02931BD8400C8D654 /* RequestType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestType.swift; sourceTree = "<group>"; };
 		E27DB1E52931BD9A00C8D654 /* PushService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PushService.swift; sourceTree = "<group>"; };
+		E27DB1E82931BF3300C8D654 /* Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -222,13 +224,14 @@
 		110C048929231F0D00DCEDA3 /* inperson */ = {
 			isa = PBXGroup;
 			children = (
-				E27DB1D52931BD4400C8D654 /* Network */,
 				119424CD292722FE00391BDA /* inperson.entitlements */,
 				11310892292482C3005BD485 /* Info.plist */,
 				110C048E29231F0F00DCEDA3 /* Assets.xcassets */,
+				E27DB1E72931BF2500C8D654 /* Config */,
 				119424D3292787E000391BDA /* Extensions */,
 				110C04D429237DF900DCEDA3 /* Managers */,
 				119424F429278B6300391BDA /* Model */,
+				E27DB1D52931BD4400C8D654 /* Network */,
 				110C049029231F0F00DCEDA3 /* Preview Content */,
 				119424FA29278B9200391BDA /* Screens */,
 			);
@@ -451,6 +454,14 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
+		E27DB1E72931BF2500C8D654 /* Config */ = {
+			isa = PBXGroup;
+			children = (
+				E27DB1E82931BF3300C8D654 /* Config.swift */,
+			);
+			path = Config;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -655,6 +666,7 @@
 				110C04B92923201D00DCEDA3 /* CryptoManager.swift in Sources */,
 				110C04C2292326DD00DCEDA3 /* EventsManager.swift in Sources */,
 				E27DB1DA2931BD6D00C8D654 /* PushRequest.swift in Sources */,
+				E27DB1E92931BF3300C8D654 /* Config.swift in Sources */,
 				110C04B529231F2900DCEDA3 /* BluetoothManager.swift in Sources */,
 				E27DB1D32931BD0000C8D654 /* SecKey+Extensions.swift in Sources */,
 				E27DB1D42931BD0000C8D654 /* String+Extensions.swift in Sources */,
