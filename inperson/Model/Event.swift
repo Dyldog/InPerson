@@ -75,4 +75,19 @@ extension Array where Element == Event {
     func removingPastEvents() -> (current: [Event], past: [Event]) {
         return splittingPastEvents(by: { $0.date })
     }
+    
+    static var mock: [Event] {
+        [
+            .init(
+                id: .init(),
+                title: "TITLE",
+                date: .now,
+                lastUpdate: .now,
+                responses: .mock,
+                creatorID: "CREATOR_ID",
+                invites: [],
+                publicity: .autoShare
+            )
+        ]
+    }
 }

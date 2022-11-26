@@ -13,16 +13,20 @@ struct EventDetailView: View {
     @StateObject var viewModel: EventDetailViewModel
     
     var body: some View {
+       
         ScrollView {
-            VStack(spacing: 8) {
+            VStack(spacing: 10) {
                 VStack(alignment: .center) {
                     Text(viewModel.title)
-                        .font(.largeTitle)
+                        .font(.title)
+                        .fontWeight(.bold)
+                        .padding(.top, 4.0)
                     Text(viewModel.date)
                         .font(.headline)
+                        .padding(.vertical, 4.0)
                     Text(viewModel.event.publicity.title)
                         .font(.headline)
-                        .padding(.bottom, 10)
+                        .padding(.vertical, 4.0)
                     
                     
                     if !viewModel.isMyEvent {
@@ -41,7 +45,9 @@ struct EventDetailView: View {
                 
                 VStack {
                     ZStack(alignment: .center) {
-                        Rectangle().foregroundColor(.black).frame(maxWidth: .infinity)
+                        Rectangle().foregroundColor(.black)
+                        
+                            .frame(maxWidth: .infinity)
                         Text("Who's going?")
                             .font(.title2)
                             .fontWeight(.bold)
@@ -54,9 +60,12 @@ struct EventDetailView: View {
                     ForEach(Array(viewModel.responseRows.enumerated()), id: \.offset) { offset, element in
                         ResponderView(name: element.0, response: element.1)
                             
+                            
                     }
                 }
             }
+            .background()
+            
         }
         .sheet(isPresented: $viewModel.showInviteView) {
             NavigationView {
@@ -87,5 +96,6 @@ struct EventDetailView_Previews: PreviewProvider {
                 pastEvents: []
             )
         ))
+        
     }
 }

@@ -66,3 +66,21 @@ struct EventsList: View {
         }
     }
 }
+
+struct EventsList_Preview: PreviewProvider {
+    static var previews: some View {
+        NavigationView {
+            EventsList(viewModel: .init(
+                friendsManager: MockFriendsManager(friends: .mock),
+                eventsManager: MockEventsManager(
+                    myCurrentEvents: .mock,
+                    receivedEvents: [Event].mock.map {
+                        .init(event: $0, sender: [Friend].mock.randomElement()!)
+                    },
+                    pastEvents: []
+                ),
+                nearbyManager: MockNearbyConnectionManager()
+            ))
+        }
+    }
+}

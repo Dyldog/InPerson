@@ -17,6 +17,20 @@ protocol NearbyConnectionManager {
     func initiateConnection(with device: Device)
 }
 
+struct MockNearbyConnectionManager: NearbyConnectionManager {
+    var isScanning: AnyPublisher<Bool, Never> = Just(true).eraseToAnyPublisher()
+    
+    var nearbyDevices: AnyPublisher<[Device], Never> = Just([]).eraseToAnyPublisher()
+    
+    func searchForNearbyDevices() {
+        //
+    }
+    
+    func initiateConnection(with device: Device) {
+        //
+    }
+}
+
 protocol DataConnectionManager {
     var connectedDevices: AnyPublisher<[Device], Never> { get }
     

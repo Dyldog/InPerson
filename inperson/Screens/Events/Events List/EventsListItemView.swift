@@ -23,16 +23,24 @@ struct EventListItemView: View {
         HStack {
             VStack(alignment: .leading) {
                 Text(event.title)
+                    .font(.headline)
+                    .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
+                    .bold()
+                    .padding(.top, 1.0)
                 Text(event.date)
-                    .font(.footnote)
+                    .font(.subheadline)
+                    .padding(.top, 0.0)
                 Text(event.responses)
-                    .font(.footnote)
+                    .font(.subheadline)
+                    .padding(.top, 1.0)
             }
+            .padding(.trailing, 6.0)
             
             Spacer()
             
-            Text(event.source).font(.footnote).multilineTextAlignment(.trailing)
+            Text(event.source).font(.footnote).foregroundColor(Color.gray).multilineTextAlignment(.trailing).padding(.trailing, 5.0)
         }
+        .padding(.trailing, 2.0)
     }
 }
 

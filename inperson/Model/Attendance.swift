@@ -31,7 +31,7 @@ extension Attendance {
         case .host: return "👑"
         case .going: return "👍"
         case .notGoing: return "👎"
-        case .maybe: return "🛟"
+        case .maybe: return "🤔"
         }
     }
     
@@ -53,22 +53,22 @@ extension Array where Element == Attendance {
         var strings: [String] = []
         
         if let going = counts[.going]?.count {
-            strings += ["\(going) going"]
+            strings += ["\(going) 👍"]
         }
         
         if let notGoing = counts[.notGoing]?.count {
-            strings += ["\(notGoing) not going"]
+            strings += ["\(notGoing) 👎"]
         }
         
         if let maybe = counts[.maybe]?.count {
-            strings += ["\(maybe) maybe"]
+            strings += ["\(maybe) 🤔"]
         }
         
         if strings.isEmpty {
             strings = ["No responses"]
         }
         
-        return strings.joined(separator: ", ")
+        return strings.joined(separator: " ")
     }
     
     var pastSummary: String {
