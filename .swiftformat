@@ -1,0 +1,21 @@
+--swiftversion 5.5
+--enable isEmpty,strongifiedSelf,strongOutlets,spaceInsideParens,spaceInsideGenerics,spaceInsideComments
+--enable spaceInsideBrackets,spaceAroundParens,spaceAroundGenerics,spaceAroundBrackets,spaceAroundBraces
+--enable redundantVoidReturnType,redundantRawValues,redundantPattern,trailingCommas,trailingSpace,typeSugar
+--enable unusedArguments,andOperator,anyObjectProtocol,consecutiveBlankLines,consecutiveSpaces,duplicateImports
+--enable emptyBraces,leadingDelimiters,modifierorder,numberFormatting,wrap,wrapArguments,redundantSelf,blankLinesBetweenScopes
+--enable blockComments,initCoderUnavailable,redundantBackticks,redundantBreak,redundantClosure,redundantFileprivate,redundantGet
+--enable redundantInit,redundantLet,redundantLetError,redundantNilInit,redundantObjc,spaceAroundComments,spaceInsideBraces,todos
+--disable blankLinesAtStartOfScope,redundantReturn,enumNamespaces
+--trailingclosures
+--maxwidth 140
+--wraparguments before-first
+--wrapparameters before-first
+--wrapcollections before-first
+--funcattributes prev-line
+--typeattributes prev-line
+--wrapconditions before-first
+--wraptypealiases before-first
+--elseposition same-line
+--decimalgrouping 3
+--redundanttype explicit

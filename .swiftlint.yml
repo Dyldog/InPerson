@@ -1,0 +1,85 @@
+opt_in_rules:
+  - empty_count
+  - empty_string
+  - first_where
+  - lower_acl_than_parent
+
+disabled_rules:
+  - closing_brace
+  - opening_brace
+  - identifier_name
+  - type_name
+  - force_cast
+  - force_unwrapping
+  - trailing_comma
+  - empty_enum_arguments
+  - force_try
+  - empty_parentheses_with_trailing_closure
+  - vertical_parameter_alignment
+  - multiple_closures_with_trailing_closure
+  - nesting
+
+cyclomatic_complexity:
+  ignores_case_statements: true
+  
+included:
+  - Source
+
+trailing_whitespace:
+  severity: error
+
+line_length:
+  warning: 140
+  error: 180
+
+type_body_length:
+  warning: 300
+  error: 400
+
+file_length:
+  warning: 2000
+  error: 2500
+
+function_body_length:
+  warning: 500
+  error: 600
+
+custom_rules:
+
+  safe_array_lookup: # rule identifier
+    name: "Safe Array Lookup" # rule name. optional.
+    included: "Tests/.*\\.swift"
+    regex: "(\\[\\d+\\])" # matching pattern
+    capture_group: 0 # number of regex capture group to highlight the rule violation at. optional.
+    message: "Safe array lookup ('<ARRAY>[safe: <INDEX>]') must be used so that tests don't crash" # violation message. optional.
+    severity: error # violation severity. optional.
+
+  must_set_filename:
+      name: "Set Filename in Comment"
+      regex: "// +File\\.swift"
+      message: "Please update filename comment to match class"
+
+  remove_default_comments:
+    name: "Remove Default Comments"
+    regex: "(\\/\\/ Do any additional setup after loading the view.)"
+
+  private_outlets:
+    name: "Private Outlets"
+    message: "@IBOutlets should be marked private"
+    regex: "@IBOutlet\\s*(lazy )?(var|let)"
+
+  private_actions:
+    name: "Private Actions"
+    message: "@IBActions should be marked private"
+    regex: "@IBAction\\s*func"
+
+  must_specify_class_inheritability:
+    name: "Specify Class Inheritability"
+    message: "You must define your class as either final (preferable) or open (only if required)"
+    regex: "^\\s*(private |public )?(class)"
+    capture_group: 1
+
+  weak_coordinators:
+    excluded: "Tests/.*\\.swift"
+    message: "References to coordinators should be weak"
+    regex: "^\\s*(private |public )?(let|var) \\w+: \\w+Coordinating"
