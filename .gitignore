@@ -92,4 +92,4 @@ iOSInjectionProject/
 .DS_Store
 
 # Ignore config
-Source/Eventful/Eventful/Config/*
+Source/InPerson/inperson/Config/*
