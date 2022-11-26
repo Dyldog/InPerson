@@ -29,7 +29,9 @@ class AppModel: NSObject, ObservableObject {
         )
     }
 
-    func didAppear() {}
+    func didAppear() {
+        PushService.shared.requestAccess()
+    }
 
     func eventsListModel() -> EventsListViewModel {
         return .init(

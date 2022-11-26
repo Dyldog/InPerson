@@ -10,6 +10,7 @@ import Combine
 import CommonCrypto
 import Foundation
 import Support
+import UIKit
 import UserNotifications
 
 public struct EmptyResponse: Codable {}
@@ -178,6 +179,18 @@ public extension PushService {
                 }
             )
             .store(in: &cancellable)
+    }
+
+    func requestAccess() {
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { granted, _ in
+            guard granted else {
+                return print("Rejected")
+            }
+
+            DispatchQueue.main.async {
+                UIApplication.shared.registerForRemoteNotifications()
+            }
+        }
     }
 
     @discardableResult
