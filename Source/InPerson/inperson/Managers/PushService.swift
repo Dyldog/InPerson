@@ -153,6 +153,9 @@ public extension PushService {
         )
 
         let request: Request = .init(message: message)
+
+        DebugManager.shared.logEvent(.sendPush(message: message.message, to: token))
+
         add(request)
         perform(pushRequest)
             .handleEvents(
@@ -162,6 +165,7 @@ public extension PushService {
                     case .finished: request.state = .sent
                     }
 
+                    DebugManager.shared.logEvent(.pushFailed(message: message.message, to: token))
                     self?.update(request)
                 },
                 receiveCancel: { [weak self] in
@@ -169,7 +173,7 @@ public extension PushService {
                     self?.update(request)
                 }
             )
-            .retry(delay: .after(seconds: 60), scheduler: DispatchQueue.global())
+            .retry(delay: .after(seconds: 5), scheduler: DispatchQueue.global())
             .sink(
                 receiveCompletion: { _ in
                     // Error
@@ -251,24 +255,18 @@ private extension PushService {
     }
 
     func perform(_ request: PushRequest) -> AnyPublisher<Void, HTTPError<PushError>> {
-        return Future { [unowned self] future in
-            self.client.perform(request) { result in
-                future(result.mapError { _ in HTTPError.api(PushError(reason: "", timestamp: nil)) })
+        let publisher: AnyPublisher<EmptyResponse, HTTPError<PushError>> = client.publisher(for: request)
+
+        return publisher
+            .map { _ in () }
+            .tryCatch { error -> AnyPublisher<Void, HTTPError<PushError>> in
+                guard error == .empty else {
+                    throw error
+                }
+
+                return Just(()).setFailureType(to: HTTPError<PushError>.self).eraseToAnyPublisher()
             }
-        }
-        .eraseToAnyPublisher()
-//        let publisher: AnyPublisher<EmptyResponse, HTTPError<PushError>> = client.publisher(for: request)
-//
-//        return publisher
-//            .map { _ in () }
-//            .tryCatch { error -> AnyPublisher<Void, HTTPError<PushError>> in
-//                guard error == .empty else {
-//                    throw error
-//                }
-//
-//                return Just(()).setFailureType(to: HTTPError<PushError>.self).eraseToAnyPublisher()
-//            }
-//            .mapError { $0 as! HTTPError<PushError> }
-//            .eraseToAnyPublisher()
+            .mapError { $0 as! HTTPError<PushError> }
+            .eraseToAnyPublisher()
     }
 }

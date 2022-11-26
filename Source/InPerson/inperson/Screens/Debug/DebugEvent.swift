@@ -22,6 +22,9 @@ enum DebugEvents: Hashable, Equatable {
     case foundPeer(id: String)
     case lostPeer(id: String)
 
+    case sendPush(message: String, to: String)
+    case pushFailed(message: String, to: String)
+
     var string: String {
         switch self {
         case let .connectedToDevice(device): return "Connected to [\(device)]"
@@ -34,6 +37,8 @@ enum DebugEvents: Hashable, Equatable {
         case let .ignoredInviteFromUnknownPeer(device): return "Ignored invite from unknown peer [\(device)]"
         case let .foundPeer(id): return "Found peer [\(id)]"
         case let .lostPeer(id): return "Lost peer [\(id)]"
+        case let .sendPush(message, to): return "Sent push: [\(message)] to [\(to)]"
+        case let .pushFailed(message, to): return "Failed push: [\(message)] to [\(to)]"
         }
     }
 

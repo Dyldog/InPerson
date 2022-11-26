@@ -276,13 +276,13 @@
 		110C04D429237DF900DCEDA3 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
-				E27DB1E52931BD9A00C8D654 /* PushService.swift */,
 				119424F12927899800391BDA /* Bluetooth */,
 				110C04B82923201D00DCEDA3 /* CryptoManager.swift */,
-				110C04B629231F5C00DCEDA3 /* FriendsManager.swift */,
-				110C04C1292326DD00DCEDA3 /* EventsManager.swift */,
-				119424C8292716EA00391BDA /* MultiPeerManager.swift */,
 				119424E92927891D00391BDA /* DebugManager.swift */,
+				110C04C1292326DD00DCEDA3 /* EventsManager.swift */,
+				110C04B629231F5C00DCEDA3 /* FriendsManager.swift */,
+				119424C8292716EA00391BDA /* MultiPeerManager.swift */,
+				E27DB1E52931BD9A00C8D654 /* PushService.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -843,7 +843,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"inperson/Preview Content\"";
-				DEVELOPMENT_TEAM = UANG8U8JHQ;
+				DEVELOPMENT_TEAM = 6CW3378X23;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = inperson/Info.plist;
@@ -877,7 +877,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"inperson/Preview Content\"";
-				DEVELOPMENT_TEAM = UANG8U8JHQ;
+				DEVELOPMENT_TEAM = Z73Y2359SG;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = inperson/Info.plist;
