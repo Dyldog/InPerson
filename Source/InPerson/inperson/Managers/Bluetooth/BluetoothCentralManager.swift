@@ -49,7 +49,7 @@ class BluetoothCentralManager {
                 let deviceID = peripheral.identifier.uuidString
 
                 if self.peripherals.contains(where: { $0.device.id == deviceID }) == false {
-                    self.peripherals.append((.init(id: deviceID), peripheral))
+                    self.peripherals.append((.init(id: deviceID, pushToken: ""), peripheral))
                 }
             case .scanStopped:
                 self.isScanning = false

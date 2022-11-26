@@ -73,7 +73,7 @@ class FriendsListViewModel: NSObject, ObservableObject {
         guard friendsManager.friend(for: uuid) == nil else { return }
 //        friendsManager.addFriend(for: uuid, with: name, and: device)
 
-        nearbyManager.initiateConnection(with: .init(id: uuid))
+        nearbyManager.initiateConnection(with: .init(id: uuid, pushToken: ""))
         reload()
     }
 

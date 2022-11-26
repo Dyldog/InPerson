@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		110C048B29231F0D00DCEDA3 /* inpersonApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 110C048A29231F0D00DCEDA3 /* inpersonApp.swift */; };
+		110C048B29231F0D00DCEDA3 /* InPersonApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 110C048A29231F0D00DCEDA3 /* InPersonApp.swift */; };
 		110C048D29231F0D00DCEDA3 /* FriendsList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 110C048C29231F0D00DCEDA3 /* FriendsList.swift */; };
 		110C048F29231F0F00DCEDA3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 110C048E29231F0F00DCEDA3 /* Assets.xcassets */; };
 		110C049229231F0F00DCEDA3 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 110C049129231F0F00DCEDA3 /* Preview Assets.xcassets */; };
@@ -98,7 +98,7 @@
 
 /* Begin PBXFileReference section */
 		110C048729231F0D00DCEDA3 /* inperson.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = inperson.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		110C048A29231F0D00DCEDA3 /* inpersonApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = inpersonApp.swift; sourceTree = "<group>"; };
+		110C048A29231F0D00DCEDA3 /* InPersonApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InPersonApp.swift; sourceTree = "<group>"; };
 		110C048C29231F0D00DCEDA3 /* FriendsList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsList.swift; sourceTree = "<group>"; };
 		110C048E29231F0F00DCEDA3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		110C049129231F0F00DCEDA3 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -406,7 +406,7 @@
 		119424F929278B8A00391BDA /* App */ = {
 			isa = PBXGroup;
 			children = (
-				110C048A29231F0D00DCEDA3 /* inpersonApp.swift */,
+				110C048A29231F0D00DCEDA3 /* InPersonApp.swift */,
 				119424F729278B8400391BDA /* AppViewModel.swift */,
 			);
 			path = App;
@@ -682,7 +682,7 @@
 				119424F329278B2000391BDA /* Array+FindByClosure.swift in Sources */,
 				110C04BF2923231A00DCEDA3 /* DefaultsHandling.swift in Sources */,
 				119424DE2927887700391BDA /* EventsListItemView.swift in Sources */,
-				110C048B29231F0D00DCEDA3 /* inpersonApp.swift in Sources */,
+				110C048B29231F0D00DCEDA3 /* InPersonApp.swift in Sources */,
 				110C04D32923795C00DCEDA3 /* TextFieldAlert.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

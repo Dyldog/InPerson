@@ -20,12 +20,15 @@ enum FriendsManagerError: Error {
 ///     - Adding new friends
 class FriendsManager {
 
-    let nearbyManager: NearbyConnectionManager
+    var nearbyManager: NearbyConnectionManager
     var dataManager: DataConnectionManager
     let cryptoManager: CryptoManager
     let eventsManager: EventsManager
+    let pushManager: PushService
 
     @UserDefaultable(key: .userUUID) var userUUID: String = UUID().uuidString
+    @UserDefaultable(key: .pushToken) var token: String = ""
+
     @Published var friends: [Friend] = UserDefaults.standard.decodable(for: .friends) ?? [] {
         didSet {
             UserDefaults.standard.set(data: friends.encoded(), for: .friends)
@@ -39,18 +42,20 @@ class FriendsManager {
         dataManager: DataConnectionManager,
         cryptoManager: CryptoManager,
         eventsManager: EventsManager,
-        nearbyManager: NearbyConnectionManager
+        nearbyManager: NearbyConnectionManager,
+        pushManager: PushService = .shared
     ) {
         self.nearbyManager = nearbyManager
         self.dataManager = dataManager
         self.cryptoManager = cryptoManager
         self.eventsManager = eventsManager
+        self.pushManager = pushManager
 
-        self.dataManager.onInviteHandler = { [weak self] id, completion in
-            self?.onInvite(id: id, completion: completion)
+        self.nearbyManager.onInviteHandler = { [weak self] device, completion in
+            self?.onInvite(device: device, completion: completion)
         }
 
-        self.dataManager.onConnectHandler = { [weak self] in
+        self.nearbyManager.onConnectHandler = { [weak self] in
             guard let self = self, let friend = self.friend(for: $0.id) else { return }
             self.updateLastSeen(for: friend)
 
@@ -58,18 +63,24 @@ class FriendsManager {
                 nearbyManager.initiateConnection(with: $0)
             }
 
-            self.shareEvents(with: friend).sink(receiveCompletion: { _ in
-                //
-            }, receiveValue: { _ in
-                //
-            })
-            .store(in: &self.cancellables)
+//            self.shareEvents(with: friend)
+//                .sink(
+//                    receiveCompletion: { _ in
+//                        //
+//                    },
+//                    receiveValue: { _ in
+//                        //
+//                    }
+//                )
+//                .store(in: &self.cancellables)
         }
 
         self.dataManager.receiveDataHandler = { (uuid: String, data: Data) in
             guard let events = try? data.decoded(as: [Event].self), let friend = self.friend(for: uuid) else { return }
             self.eventsManager.didReceiveEvents(events, from: friend)
         }
+
+        self.pushManager.receiveDataHandler = self.dataManager.receiveDataHandler
 
         self.nearbyManager.nearbyDevices.didSet.sink { nearDevices in
             self.filterFriends(from: nearDevices).forEach {
@@ -90,27 +101,27 @@ class FriendsManager {
         friends[index].lastSeen = .now
     }
 
-    private func getName(for id: String) {
+    private func getName(for device: Device) {
         let alert = UIAlertController(title: "What's their name?", message: nil, preferredStyle: .alert)
         alert.addTextField()
         alert.addAction(.init(title: "Cancel", style: .cancel, handler: nil))
         alert.addAction(.init(title: "Add", style: .default, handler: { _ in
             guard let name = alert.textFields?.first?.text else { return }
-            self.addFriend(for: id, with: name, and: .init(id: id))
+            self.addFriend(name, and: device)
         }))
 
         UIApplication.shared.showAlert(alert)
     }
 
-    private func onInvite(id: String, completion: @escaping (Bool) -> Void) {
+    private func onInvite(device: Device, completion: @escaping (Bool) -> Void) {
 
-        if let friend = friend(for: id) {
+        if let friend = friend(for: device.id) {
             updateLastSeen(for: friend)
             completion(true)
         } else {
             let appName = Bundle.main.infoDictionary?["CFBundleName"] as? String ?? "Invitation Received"
 
-            let ac = UIAlertController(title: appName, message: "'\(id)' wants to connect.", preferredStyle: .alert)
+            let ac = UIAlertController(title: appName, message: "'\(device.id)' wants to connect.", preferredStyle: .alert)
             let declineAction = UIAlertAction(title: "Decline", style: .cancel) { _ in
                 completion(false)
             }
@@ -118,7 +129,7 @@ class FriendsManager {
                 completion(true)
 
                 ac.dismiss(animated: true) {
-                    self?.getName(for: id)
+                    self?.getName(for: device)
                 }
             }
 
@@ -129,7 +140,7 @@ class FriendsManager {
         }
     }
 
-    func addFriend(for _: String, with name: String, and device: Device) {
+    func addFriend(_ name: String, and device: Device) {
         friends.append(Friend(name: name, device: device, publicKey: "TODO", lastSeen: .now))
     }
 
@@ -153,11 +164,11 @@ class FriendsManager {
 
     private func shareEvents(with friend: Friend) -> AnyPublisher<Void, Error> {
         let events = filterEvents(eventsManager.eventsToShare, for: friend)
-        return dataManager.writeData(events.encoded(), to: friend.device)
+        return pushManager.writeData(events.encoded(), to: friend.device)
     }
 
     func shareEventsWithNearbyFriends() -> AnyPublisher<Void, Error> {
-        let nearbyFriends = filterFriends(from: connectableDevices)
+        let nearbyFriends = friends
 
         return Publishers.MergeMany(
             nearbyFriends.map {

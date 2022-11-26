@@ -7,6 +7,7 @@
 
 import Combine
 import Foundation
+import Support
 import SwiftUI
 
 struct DebugView: View {
@@ -26,8 +27,11 @@ struct DebugView: View {
             Section {
                 ForEach(viewModel.debugEvents, id: \.self) { item in
                     VStack(alignment: .leading) {
-                        Text(item.timestamp.ISO8601Format())
-                            .font(.footnote).foregroundColor(.gray)
+
+                        Text(
+                            "\(Formatter.Date.dayMonthYear(item.timestamp)) \(Formatter.Date.time(item.timestamp))"
+                        )
+                        .font(.footnote).foregroundColor(.gray)
                         Text(item.event.string)
                             .font(.body)
                     }

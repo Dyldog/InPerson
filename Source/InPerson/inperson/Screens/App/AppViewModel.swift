@@ -8,6 +8,7 @@
 import Foundation
 
 class AppModel: NSObject, ObservableObject {
+
     let nearbyManager: NearbyConnectionManager
     let dataManager: DataConnectionManager
     let friendsManager: FriendsManager

@@ -46,12 +46,14 @@ public final class PushService {
 
     public static let shared: PushService = .init()
 
+    var receiveDataHandler: ((String, Data) -> Void)?
+
     private let client: HTTPClientType
     private(set) var teamID: String!
     private(set) var cert: String!
     private(set) var authKeyID: String!
     private(set) var topic: String!
-    public var token: String!
+    @UserDefaultable(key: .pushToken) private(set) var token: String = ""
     private var cancellable: Set<AnyCancellable> = .init()
 
     // MARK: - Initialisers
@@ -141,7 +143,7 @@ public extension PushService {
     }
 
     func send(_ message: String, to token: String) {
-        let message: Message = .init(from: self.token ?? "SIMULATOR", message: message)
+        let message: Message = .init(from: self.token, message: message)
 
         let pushRequest: PushRequest = .init(
             teamID: teamID,
@@ -173,7 +175,7 @@ public extension PushService {
                     self?.update(request)
                 }
             )
-            .retry(delay: .after(seconds: 5), scheduler: DispatchQueue.global())
+            .retry(delay: .after(seconds: 60), scheduler: DispatchQueue.global())
             .sink(
                 receiveCompletion: { _ in
                     // Error
@@ -222,6 +224,11 @@ public extension PushService {
 
         UNUserNotificationCenter.current().add(.init(identifier: UUID().uuidString, content: content, trigger: nil))
 
+        receiveDataHandler?(message.message.from, jsonData)
+
+        DebugManager.shared.logEvent(
+            .receivedPush(message: message.message.message, from: message.message.from)
+        )
         return true
     }
 }
@@ -268,5 +275,24 @@ private extension PushService {
             }
             .mapError { $0 as! HTTPError<PushError> }
             .eraseToAnyPublisher()
+    }
+}
+
+extension PushService: DataConnectionManager {
+
+    var connectedDevices: AnyPublisher<[Device], Never> {
+        return Just([]).eraseToAnyPublisher()
+    }
+
+    func writeData(_ data: Data, to device: Device) -> AnyPublisher<Void, Error> {
+        DebugManager.shared.logEvent(
+            .sendingPush(message: String(data: data, encoding: .utf8) ?? "FAILED TO DECODE", to: device.pushToken)
+        )
+
+        return Just(
+            send(String(data: data, encoding: .utf8) ?? "FAILED TO DECODE", to: device.pushToken)
+        )
+        .setFailureType(to: Error.self)
+        .eraseToAnyPublisher()
     }
 }

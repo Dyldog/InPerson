@@ -14,6 +14,7 @@ import SwiftyBluetooth
 struct Device: Codable, Equatable {
     /// Used to identify the device
     let id: String
+    let pushToken: String
 }
 
 enum BluetoothError: Error {
@@ -39,7 +40,7 @@ class BluetoothManager: NSObject, NearbyConnectionManager, DataConnectionManager
         characteristic: BluetoothManager.characteristicUUID
     )
 
-    var onInviteHandler: ((String, @escaping (Bool) -> Void) -> Void)?
+    var onInviteHandler: ((Device, @escaping (Bool) -> Void) -> Void)?
     var onConnectHandler: ((Device) -> Void)?
 
     var sendDataHandler: (() -> Data)? {

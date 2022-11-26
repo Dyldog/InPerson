@@ -15,6 +15,7 @@ enum DefaultsKey: String, CaseIterable {
     case pastEvents = "PAST_EVENTS"
     case friends = "FRIENDS"
     case userUUID = "USER_UUID"
+    case pushToken = "PUSH_TOKEN"
 }
 
 func getFromUserDefaults<T: Codable>(for key: DefaultsKey) -> T? {

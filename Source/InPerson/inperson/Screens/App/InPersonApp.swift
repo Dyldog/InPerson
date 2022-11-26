@@ -1,5 +1,5 @@
 //
-//  inpersonApp.swift
+//  InPersonApp.swift
 //  inperson
 //
 //  Created by Dylan Elliott on 15/11/2022.
@@ -8,7 +8,7 @@
 import SwiftUI
 
 @main
-struct inpersonApp: App {
+struct InPersonApp: App {
 
     @StateObject var appModel: AppModel = .init()
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
@@ -45,14 +45,13 @@ struct inpersonApp: App {
             }
             .onAppear {
                 appModel.didAppear()
+                PushService.shared.requestAccess()
             }
         }
     }
 }
 
 final class AppDelegate: NSObject, UIApplicationDelegate {
-
-    var pushToken: String?
 
     func application(_: UIApplication, didFinishLaunchingWithOptions options: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
         if let notification = options?[.remoteNotification] as? [AnyHashable: Any] {
@@ -92,10 +91,8 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
         let tokenParts = deviceToken.map { data in String(format: "%02.2hhx", data) }
         let token = tokenParts.joined()
         print("Device Token: \(token)")
-        pushToken = token
 
         PushService.shared.set(token: token)
-        PushService.shared.send("HELLO FRIEND", to: token)
     }
 
     func application(_: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {

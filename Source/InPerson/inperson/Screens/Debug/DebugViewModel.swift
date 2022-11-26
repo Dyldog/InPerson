@@ -21,13 +21,26 @@ class DebugViewModel: NSObject, ObservableObject {
 
         super.init()
 
-        DebugManager.shared.$events.didSet.sink { [weak self] in
-            self?.reload(events: $0)
-        }.store(in: &cancellables)
+        DebugManager
+            .shared
+            .$events
+            .map {
+                $0.filter {
+                    switch $0.event {
+                    case .sendPush, .receivedPush, .sendingPush, .pushFailed: return true
+                    default: return false
+                    }
+                }
+            }
+            .didSet
+            .sink { [weak self] in
+                self?.reload(events: $0)
+            }
+            .store(in: &cancellables)
     }
 
-    private func reload(events _: [DebugEventInformation]) {
-        debugEvents = DebugManager.shared.events
+    private func reload(events: [DebugEventInformation]) {
+        debugEvents = events
     }
 
     func clear() {
