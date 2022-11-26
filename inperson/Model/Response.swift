@@ -11,6 +11,46 @@ struct Response: Codable, Equatable {
     let responderID: String
     let going: Attendance
     let lastUpdate: Date
+    
+    init(responderID: String, going: Attendance, lastUpdate: Date) {
+        self.responderID = responderID
+        self.going = going
+        self.lastUpdate = lastUpdate
+    }
+}
+
+extension Array where Element == Response {
+    static var mock: [Response] {
+        let friends: [Friend] = .mock
+        
+        var responses: [Response] = []
+        
+        if friends.count > 0 {
+            responses.append(.init(
+                responderID: friends[0].device.id,
+                going: .going,
+                lastUpdate: .now
+            ))
+        }
+        
+        if friends.count > 1 {
+            responses.append(.init(
+                responderID: friends[1].device.id,
+                going: .notGoing,
+                lastUpdate: .now
+            ))
+        }
+        
+        if friends.count > 2 {
+            responses.append(.init(
+                responderID: friends[2].device.id,
+                going: .maybe,
+                lastUpdate: .now
+            ))
+        }
+        
+        return responses
+    }
 }
 
 extension Array where Element == Response {

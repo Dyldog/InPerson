@@ -10,9 +10,9 @@ import Foundation
 class AppModel: NSObject, ObservableObject {
     let nearbyManager: NearbyConnectionManager
     let dataManager: DataConnectionManager
-    let friendsManager: FriendsManager
+    let friendsManager: FriendsManagerType
     let cryptoManager: CryptoManager
-    let eventsManager: EventsManager
+    let eventsManager: EventsManagerType
     
     override init() {
         let multipeerManager = MultiPeerManager()
@@ -21,7 +21,7 @@ class AppModel: NSObject, ObservableObject {
         self.cryptoManager = CryptoManager()
         self.eventsManager = EventsManager()
         
-        self.friendsManager = .init(
+        self.friendsManager = FriendsManager(
             dataManager: self.dataManager,
             cryptoManager: self.cryptoManager,
             eventsManager: self.eventsManager,

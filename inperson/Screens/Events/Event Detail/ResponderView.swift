@@ -26,3 +26,21 @@ struct ResponderView: View {
         .padding()
     }
 }
+
+struct ResponderView_Previews: PreviewProvider {
+    static var previews: some View {
+        Group {
+            ResponderView(name: "NAME", response: .host)
+                .previewLayout(.sizeThatFits)
+            
+            ResponderView(name: "NAME", response: .notResponded)
+                .previewLayout(.sizeThatFits)
+            
+            ResponderView(name: "NAME", response: .attendance(.going))
+                .previewLayout(.sizeThatFits)
+            
+            ResponderView(name: "NAME", response: .invited)
+                .previewLayout(.sizeThatFits)
+        }
+    }
+}

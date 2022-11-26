@@ -9,7 +9,7 @@ import Foundation
 import Combine
 
 class FriendsListViewModel: NSObject, ObservableObject {
-    private let friendsManager: FriendsManager
+    private let friendsManager: FriendsManagerType
     private let nearbyManager: NearbyConnectionManager
     
     private let dateFormatter: RelativeDateTimeFormatter = {
@@ -25,7 +25,7 @@ class FriendsListViewModel: NSObject, ObservableObject {
     
     @Published var isScanning: Bool = false
     
-    init(friendsManager: FriendsManager, nearbyManager: NearbyConnectionManager) {
+    init(friendsManager: FriendsManagerType, nearbyManager: NearbyConnectionManager) {
         self.friendsManager = friendsManager
         self.nearbyManager = nearbyManager
         
@@ -41,7 +41,7 @@ class FriendsListViewModel: NSObject, ObservableObject {
         }
         .store(in: &cancellables)
         
-        friendsManager.$friends.didSet.sink { friends in
+        friendsManager.friendsPublisher.didSet.sink { friends in
             self.reload()
         }
         .store(in: &cancellables)

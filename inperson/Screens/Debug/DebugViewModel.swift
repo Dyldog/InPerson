@@ -9,13 +9,13 @@ import Foundation
 import Combine
 
 class DebugViewModel: NSObject, ObservableObject {
-    let friendsManager: FriendsManager
-    let eventsManager: EventsManager
+    let friendsManager: FriendsManagerType
+    let eventsManager: EventsManagerType
     
     @Published var debugEvents: [DebugEventInformation] = []
     private var cancellables: Set<AnyCancellable> = .init()
     
-    init(friendsManager: FriendsManager, eventsManager: EventsManager) {
+    init(friendsManager: FriendsManagerType, eventsManager: EventsManagerType) {
         self.friendsManager = friendsManager
         self.eventsManager = eventsManager
         

@@ -1,16 +1,83 @@
 //
-//  EventsManager.swift
+//  EventsManagerType.swift
 //  inperson
 //
 //  Created by Dylan Elliott on 15/11/2022.
 //
 
 import Foundation
+import Combine
+
+protocol EventsManagerType {
+    func clearAllData()
+    func didReceiveEvents(_ events: [Event], from friend: Friend)
+    func createEvent(_ event: Event)
+    func updateEvent(_ oldVersion: Event, with newVersion: Event)
+    func updateEvent(_ event: Event, with responses: [Response])
+    
+    var eventsToShare: [Event] { get }
+    var eventsToSharePublisher: AnyPublisher<[Event], Never> { get }
+    
+    var myCurrentEvents: [Event] { get }
+    var receivedEvents: [ReceivedEvent] { get }
+    var pastEvents: [Event] { get }
+    
+    func inviteFriends(_ invitees: [Friend], to event: Event) -> Event?
+}
+
+class MockEventsManager: EventsManagerType {
+    
+    @Published var eventsToShare: [Event] = []
+    var eventsToSharePublisher: AnyPublisher<[Event], Never> { $eventsToShare.eraseToAnyPublisher() }
+    
+    var myCurrentEvents: [Event] = []
+    var receivedEvents: [ReceivedEvent] = []
+    var pastEvents: [Event] = []
+    
+    init(myCurrentEvents: [Event], receivedEvents: [ReceivedEvent], pastEvents: [Event]) {
+        self.myCurrentEvents = myCurrentEvents
+        self.receivedEvents = receivedEvents
+        self.pastEvents = pastEvents
+    }
+    
+    func clearAllData() {
+        //
+    }
+    
+    func didReceiveEvents(_ events: [Event], from friend: Friend) {
+        //
+    }
+    
+    func createEvent(_ event: Event) {
+        //
+    }
+    
+    func updateEvent(_ oldVersion: Event, with newVersion: Event) {
+        //
+    }
+    
+    func updateEvent(_ event: Event, with responses: [Response]) {
+        //
+    }
+    
+    func inviteFriends(_ invitees: [Friend], to event: Event) -> Event? {
+        return .init(
+            id: event.id,
+            title: event.title,
+            date: event.date,
+            lastUpdate: event.lastUpdate,
+            responses: event.responses,
+            creatorID: event.creatorID,
+            invites: event.invites + invitees.map { .init(senderID: "MEEEEE", recipientID: $0.device.id) },
+            publicity: event.publicity
+        )
+    }
+}
 
 /// Handles:
 ///     - Storing created and received events
 ///     - Creating and editing events
-class EventsManager {
+class EventsManager: EventsManagerType {
     
     @UserDefaultable(key: .userCreatedEvents) private(set) var myCurrentEvents: [Event] = [] {
         didSet { reload() }
@@ -21,6 +88,7 @@ class EventsManager {
     @UserDefaultable(key: .pastEvents) private(set) var pastEvents: [Event] = []
     
     @Published var eventsToShare: [Event] = []
+    var eventsToSharePublisher: AnyPublisher<[Event], Never> { $eventsToShare.eraseToAnyPublisher() }
     
     init() {
         reload()

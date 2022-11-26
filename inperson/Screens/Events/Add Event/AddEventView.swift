@@ -17,7 +17,7 @@ struct EventCreationDetails {
 
 class AddEventsViewModel: NSObject, ObservableObject {
     
-    private let friendsManager: FriendsManager
+    private let friendsManager: FriendsManagerType
     @Published var showAddFriends: Bool = false
     
     @Published var title: String = ""
@@ -34,7 +34,7 @@ class AddEventsViewModel: NSObject, ObservableObject {
     
     private let onDone: (EventCreationDetails) -> Void
     
-    init(friendsManager: FriendsManager, onDone: @escaping (EventCreationDetails) -> Void) {
+    init(friendsManager: FriendsManagerType, onDone: @escaping (EventCreationDetails) -> Void) {
         self.friendsManager = friendsManager
         self.onDone = onDone
         super.init()
@@ -105,5 +105,14 @@ struct AddEventsView: View {
                 }
             }
         }
+    }
+}
+
+struct AddEventsView_Previews: PreviewProvider {
+    static var previews: some View {
+        AddEventsView(viewModel: .init(
+            friendsManager: MockFriendsManager(friends: .mock),
+            onDone: { _ in }
+        ))
     }
 }

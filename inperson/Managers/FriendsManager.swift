@@ -1,5 +1,5 @@
 //
-//  FriendsManager.swift
+//  FriendsManagerType.swift
 //  inperson
 //
 //  Created by Dylan Elliott on 15/11/2022.
@@ -8,6 +8,41 @@
 import Foundation
 import Combine
 import UIKit
+
+protocol FriendsManagerType {
+    var friends: [Friend] { get }
+    var friendsPublisher: AnyPublisher<[Friend], Never> { get }
+    func clearAllData()
+    func shareEventsWithNearbyFriends() -> AnyPublisher<Void, Error>
+}
+
+extension FriendsManagerType {
+    func friend(for id: String) -> Friend? {
+        friends.first(where: { $0.device.id == id })
+    }
+}
+
+extension Array where Element == Friend {
+    static var mock: [Friend] = [
+        .init(name: "Dylan", device: .init(id: "DYLAN"), publicKey: "", lastSeen: .now),
+        .init(name: "Harry", device: .init(id: "HARRY"), publicKey: "", lastSeen: .now),
+        .init(name: "Swati", device: .init(id: "SWATI"), publicKey: "", lastSeen: .now),
+    ]
+}
+class MockFriendsManager: FriendsManagerType {
+    @Published var friends: [Friend] = []
+    var friendsPublisher: AnyPublisher<[Friend], Never> { $friends.eraseToAnyPublisher() }
+    
+    init(friends: [Friend] = []) {
+        self.friends = friends
+    }
+    func clearAllData() { }
+    
+    func shareEventsWithNearbyFriends() -> AnyPublisher<Void, Error> {
+        Just(()).setFailureType(to: Error.self).eraseToAnyPublisher()
+    }
+    
+}
 
 enum FriendsManagerError: Error {
     case thing
@@ -18,12 +53,12 @@ enum FriendsManagerError: Error {
 ///         - Sending data
 ///         - Receiving data
 ///     - Adding new friends
-class FriendsManager {
+class FriendsManager: FriendsManagerType {
     
     let nearbyManager: NearbyConnectionManager
     var dataManager: DataConnectionManager
     let cryptoManager: CryptoManager
-    let eventsManager: EventsManager
+    let eventsManager: EventsManagerType
     
     @UserDefaultable(key: .userUUID) var userUUID: String = UUID().uuidString
     @Published  var friends: [Friend] = UserDefaults.standard.decodable(for: .friends) ?? [] {
@@ -32,10 +67,12 @@ class FriendsManager {
         }
     }
     
+    var friendsPublisher: AnyPublisher<[Friend], Never> { $friends.eraseToAnyPublisher() }
+    
     var connectableDevices: [Device] = []
     var cancellables: Set<AnyCancellable> = .init()
     
-    init(dataManager: DataConnectionManager, cryptoManager: CryptoManager, eventsManager: EventsManager, nearbyManager: NearbyConnectionManager) {
+    init(dataManager: DataConnectionManager, cryptoManager: CryptoManager, eventsManager: EventsManagerType, nearbyManager: NearbyConnectionManager) {
         self.nearbyManager = nearbyManager
         self.dataManager = dataManager
         self.cryptoManager = cryptoManager
@@ -126,10 +163,6 @@ class FriendsManager {
     
     func addFriend(for id: String, with name: String, and device: Device) {
         friends.append(Friend(name: name, device: device, publicKey: "TODO", lastSeen: .now))
-    }
-    
-    func friend(for id: String) -> Friend? {
-        friends.first(where: { $0.device.id == id })
     }
     
     private func filterFriends(from devices: [Device]) -> [Friend] {

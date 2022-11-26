@@ -35,3 +35,16 @@ struct EventListItemView: View {
         }
     }
 }
+
+struct EventListItemView_Preivews: PreviewProvider {
+    static var previews: some View {
+        EventListItemView(event: .init(
+            id: UUID().uuidString,
+            title: "TITLE",
+            date: "DATE",
+            source: "SOURCE",
+            responses: "RESPONSES"
+        ))
+        .previewLayout(.sizeThatFits)
+    }
+}

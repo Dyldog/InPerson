@@ -10,8 +10,8 @@ import Combine
 
 class EventsListViewModel: NSObject, ObservableObject {
     
-    private let friendsManager: FriendsManager
-    private let eventsManager: EventsManager
+    private let friendsManager: FriendsManagerType
+    private let eventsManager: EventsManagerType
     private let nearbyManager: NearbyConnectionManager
     
     private let dateFormatter: RelativeDateTimeFormatter = {
@@ -29,7 +29,7 @@ class EventsListViewModel: NSObject, ObservableObject {
     @Published var detailViewModel: EventDetailViewModel?
     @Published var showAddEvent: Bool = false
     
-    init(friendsManager: FriendsManager, eventsManager: EventsManager, nearbyManager: NearbyConnectionManager) {
+    init(friendsManager: FriendsManagerType, eventsManager: EventsManagerType, nearbyManager: NearbyConnectionManager) {
         self.friendsManager = friendsManager
         self.eventsManager = eventsManager
         self.nearbyManager = nearbyManager
@@ -40,7 +40,7 @@ class EventsListViewModel: NSObject, ObservableObject {
             self.isScanning = $0
         }.store(in: &cancellables)
         
-        eventsManager.$eventsToShare.receive(on: RunLoop.main).sink(receiveValue: { _ in
+        eventsManager.eventsToSharePublisher.receive(on: RunLoop.main).sink(receiveValue: { _ in
             self.reload()
         })
         .store(in: &cancellables)

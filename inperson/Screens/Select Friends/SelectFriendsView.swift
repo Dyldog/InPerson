@@ -15,7 +15,7 @@ struct SelectFriendsItem: Identifiable {
 }
 
 class SelectFriendsViewModel: NSObject, ObservableObject {
-    let friendsManager: FriendsManager
+    let friendsManager: FriendsManagerType
     let onDone: ([Friend]) -> Void
     
     @Published private var selections: [(Friend, Bool)] = []
@@ -29,7 +29,7 @@ class SelectFriendsViewModel: NSObject, ObservableObject {
         }
     }
     
-    init(friendsManager: FriendsManager, onDone: @escaping ([Friend]) -> Void) {
+    init(friendsManager: FriendsManagerType, onDone: @escaping ([Friend]) -> Void) {
         self.friendsManager = friendsManager
         self.onDone = onDone
         super.init()
@@ -75,6 +75,17 @@ struct SelectFriendsView: View {
             Button("Save") {
                 viewModel.saveTapped()
             }
+        }
+    }
+}
+
+struct SelectFriendsView_Previews: PreviewProvider {
+    static var previews: some View {
+        NavigationView {
+            SelectFriendsView(viewModel: .init(
+                friendsManager: MockFriendsManager(friends: .mock),
+                onDone: { _ in }
+            ))
         }
     }
 }

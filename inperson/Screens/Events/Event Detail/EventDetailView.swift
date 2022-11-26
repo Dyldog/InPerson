@@ -42,13 +42,18 @@ struct EventDetailView: View {
                 VStack {
                     ZStack(alignment: .center) {
                         Rectangle().foregroundColor(.black).frame(maxWidth: .infinity)
-                        Text("Responses")
+                        Text("Who's going?")
+                            .font(.title2)
+                            .fontWeight(.bold)
                             .foregroundColor(.white)
+                            .multilineTextAlignment(.leading)
+                            .padding(10.0)
                     }
                         
                     
                     ForEach(Array(viewModel.responseRows.enumerated()), id: \.offset) { offset, element in
                         ResponderView(name: element.0, response: element.1)
+                            
                     }
                 }
             }
@@ -59,5 +64,28 @@ struct EventDetailView: View {
                     .navigationTitle("Invite Friends")
             }
         }
+    }
+}
+
+struct EventDetailView_Previews: PreviewProvider {
+    static var previews: some View {
+        EventDetailView(viewModel: .init(
+            event: .init(
+                id: .init(),
+                title: "TITLE",
+                date: .now,
+                lastUpdate: .now,
+                responses: .mock,
+                creatorID: "CREATOR_ID",
+                invites: [],
+                publicity: .autoShare
+            ),
+            friendManager: MockFriendsManager(friends: .mock),
+            eventManager: MockEventsManager(
+                myCurrentEvents: [],
+                receivedEvents: [],
+                pastEvents: []
+            )
+        ))
     }
 }

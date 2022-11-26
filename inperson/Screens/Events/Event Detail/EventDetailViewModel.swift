@@ -9,8 +9,14 @@ import Foundation
 import Combine
 
 class EventDetailViewModel: NSObject, ObservableObject, Identifiable {
-    let eventManager: EventsManager
-    let friendManager: FriendsManager
+    var dateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "E, MMM d @ h:mm a"
+        return formatter
+    }()
+    
+    let eventManager: EventsManagerType
+    let friendManager: FriendsManagerType
     
     var id: String { event.id.uuidString }
     private(set) var event: Event
@@ -19,7 +25,7 @@ class EventDetailViewModel: NSObject, ObservableObject, Identifiable {
     private var cancellables: Set<AnyCancellable> = .init()
     
     var title: String { event.title }
-    var date: String { event.date.ISO8601Format() }
+    var date: String { dateFormatter.string(from: event.date) }
     var isMyEvent: Bool {
         event.creatorID == userUUID
     }
@@ -35,7 +41,7 @@ class EventDetailViewModel: NSObject, ObservableObject, Identifiable {
     
     @Published var showInviteView: Bool = false
     
-    init(event: Event, friendManager: FriendsManager, eventManager: EventsManager) {
+    init(event: Event, friendManager: FriendsManagerType, eventManager: EventsManagerType) {
         self.event = event
         self.friendManager = friendManager
         self.eventManager = eventManager
