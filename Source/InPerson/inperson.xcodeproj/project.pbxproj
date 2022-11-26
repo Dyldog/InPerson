@@ -62,6 +62,20 @@
 		119425172927B8F300391BDA /* ResponderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 119425162927B8F300391BDA /* ResponderView.swift */; };
 		119425192927B90700391BDA /* ResponseStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 119425182927B90700391BDA /* ResponseStatus.swift */; };
 		E27DB1C62931B54300C8D654 /* Support in Frameworks */ = {isa = PBXBuildFile; productRef = E27DB1C52931B54300C8D654 /* Support */; };
+		E27DB1CF2931BD0000C8D654 /* UserDefaults+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27DB1C92931BCFF00C8D654 /* UserDefaults+Extensions.swift */; };
+		E27DB1D02931BD0000C8D654 /* Codable+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27DB1CA2931BCFF00C8D654 /* Codable+Extensions.swift */; };
+		E27DB1D12931BD0000C8D654 /* URLSession+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27DB1CB2931BD0000C8D654 /* URLSession+Extensions.swift */; };
+		E27DB1D22931BD0000C8D654 /* Data+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27DB1CC2931BD0000C8D654 /* Data+Extensions.swift */; };
+		E27DB1D32931BD0000C8D654 /* SecKey+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27DB1CD2931BD0000C8D654 /* SecKey+Extensions.swift */; };
+		E27DB1D42931BD0000C8D654 /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27DB1CE2931BD0000C8D654 /* String+Extensions.swift */; };
+		E27DB1DA2931BD6D00C8D654 /* PushRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27DB1D72931BD6D00C8D654 /* PushRequest.swift */; };
+		E27DB1DB2931BD6D00C8D654 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27DB1D82931BD6D00C8D654 /* Message.swift */; };
+		E27DB1DC2931BD6D00C8D654 /* Device.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27DB1D92931BD6D00C8D654 /* Device.swift */; };
+		E27DB1E12931BD8400C8D654 /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27DB1DD2931BD8400C8D654 /* HTTPMethod.swift */; };
+		E27DB1E22931BD8400C8D654 /* HTTPError.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27DB1DE2931BD8400C8D654 /* HTTPError.swift */; };
+		E27DB1E32931BD8400C8D654 /* HTTPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27DB1DF2931BD8400C8D654 /* HTTPClient.swift */; };
+		E27DB1E42931BD8400C8D654 /* RequestType.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27DB1E02931BD8400C8D654 /* RequestType.swift */; };
+		E27DB1E62931BD9A00C8D654 /* PushService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27DB1E52931BD9A00C8D654 /* PushService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -139,6 +153,20 @@
 		119425142927B8DF00391BDA /* EventResponsePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventResponsePicker.swift; sourceTree = "<group>"; };
 		119425162927B8F300391BDA /* ResponderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponderView.swift; sourceTree = "<group>"; };
 		119425182927B90700391BDA /* ResponseStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseStatus.swift; sourceTree = "<group>"; };
+		E27DB1C92931BCFF00C8D654 /* UserDefaults+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UserDefaults+Extensions.swift"; sourceTree = "<group>"; };
+		E27DB1CA2931BCFF00C8D654 /* Codable+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Codable+Extensions.swift"; sourceTree = "<group>"; };
+		E27DB1CB2931BD0000C8D654 /* URLSession+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "URLSession+Extensions.swift"; sourceTree = "<group>"; };
+		E27DB1CC2931BD0000C8D654 /* Data+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Data+Extensions.swift"; sourceTree = "<group>"; };
+		E27DB1CD2931BD0000C8D654 /* SecKey+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SecKey+Extensions.swift"; sourceTree = "<group>"; };
+		E27DB1CE2931BD0000C8D654 /* String+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Extensions.swift"; sourceTree = "<group>"; };
+		E27DB1D72931BD6D00C8D654 /* PushRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PushRequest.swift; sourceTree = "<group>"; };
+		E27DB1D82931BD6D00C8D654 /* Message.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
+		E27DB1D92931BD6D00C8D654 /* Device.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Device.swift; sourceTree = "<group>"; };
+		E27DB1DD2931BD8400C8D654 /* HTTPMethod.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPMethod.swift; sourceTree = "<group>"; };
+		E27DB1DE2931BD8400C8D654 /* HTTPError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPError.swift; sourceTree = "<group>"; };
+		E27DB1DF2931BD8400C8D654 /* HTTPClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPClient.swift; sourceTree = "<group>"; };
+		E27DB1E02931BD8400C8D654 /* RequestType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestType.swift; sourceTree = "<group>"; };
+		E27DB1E52931BD9A00C8D654 /* PushService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PushService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -194,6 +222,7 @@
 		110C048929231F0D00DCEDA3 /* inperson */ = {
 			isa = PBXGroup;
 			children = (
+				E27DB1D52931BD4400C8D654 /* Network */,
 				119424CD292722FE00391BDA /* inperson.entitlements */,
 				11310892292482C3005BD485 /* Info.plist */,
 				110C048E29231F0F00DCEDA3 /* Assets.xcassets */,
@@ -244,6 +273,7 @@
 		110C04D429237DF900DCEDA3 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
+				E27DB1E52931BD9A00C8D654 /* PushService.swift */,
 				119424F12927899800391BDA /* Bluetooth */,
 				110C04B82923201D00DCEDA3 /* CryptoManager.swift */,
 				110C04B629231F5C00DCEDA3 /* FriendsManager.swift */,
@@ -265,17 +295,23 @@
 		119424D3292787E000391BDA /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				110C04C0292326D300DCEDA3 /* User Defaults */,
-				110C04D22923795C00DCEDA3 /* TextFieldAlert.swift */,
-				1194250529278C4E00391BDA /* Encodable+Encoded.swift */,
-				1194250329278C4000391BDA /* Data+Decoded.swift */,
 				119424F229278B2000391BDA /* Array+FindByClosure.swift */,
+				E27DB1CA2931BCFF00C8D654 /* Codable+Extensions.swift */,
+				1194250329278C4000391BDA /* Data+Decoded.swift */,
+				E27DB1CC2931BD0000C8D654 /* Data+Extensions.swift */,
 				119424E72927890300391BDA /* Data+ToString.swift */,
+				1194250529278C4E00391BDA /* Encodable+Encoded.swift */,
+				119425092927962900391BDA /* Optional+Map.swift */,
+				119424EF2927896F00391BDA /* Publisher+DidSet.swift */,
+				E27DB1CD2931BD0000C8D654 /* SecKey+Extensions.swift */,
+				119425072927929E00391BDA /* String+Empty.swift */,
+				E27DB1CE2931BD0000C8D654 /* String+Extensions.swift */,
 				119424D4292787FD00391BDA /* String+Identifiable.swift */,
 				119424E5292788F300391BDA /* String+Prefixing.swift */,
-				119424EF2927896F00391BDA /* Publisher+DidSet.swift */,
-				119425072927929E00391BDA /* String+Empty.swift */,
-				119425092927962900391BDA /* Optional+Map.swift */,
+				110C04D22923795C00DCEDA3 /* TextFieldAlert.swift */,
+				E27DB1CB2931BD0000C8D654 /* URLSession+Extensions.swift */,
+				E27DB1C92931BCFF00C8D654 /* UserDefaults+Extensions.swift */,
+				110C04C0292326D300DCEDA3 /* User Defaults */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -391,6 +427,28 @@
 				119425102927A42800391BDA /* SelectFriendsView.swift */,
 			);
 			path = "Select Friends";
+			sourceTree = "<group>";
+		};
+		E27DB1D52931BD4400C8D654 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				E27DB1DF2931BD8400C8D654 /* HTTPClient.swift */,
+				E27DB1DE2931BD8400C8D654 /* HTTPError.swift */,
+				E27DB1DD2931BD8400C8D654 /* HTTPMethod.swift */,
+				E27DB1E02931BD8400C8D654 /* RequestType.swift */,
+				E27DB1D62931BD5600C8D654 /* Models */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		E27DB1D62931BD5600C8D654 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				E27DB1D92931BD6D00C8D654 /* Device.swift */,
+				E27DB1D82931BD6D00C8D654 /* Message.swift */,
+				E27DB1D72931BD6D00C8D654 /* PushRequest.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -561,39 +619,53 @@
 				110C04D629237E0600DCEDA3 /* AddEventView.swift in Sources */,
 				119424EA2927891D00391BDA /* DebugManager.swift in Sources */,
 				119424F629278B6700391BDA /* Event.swift in Sources */,
+				E27DB1E22931BD8400C8D654 /* HTTPError.swift in Sources */,
 				1194250C2927A17400391BDA /* Invite.swift in Sources */,
 				110C04CD29235EC200DCEDA3 /* BluetoothPeripheralManager.swift in Sources */,
+				E27DB1D22931BD0000C8D654 /* Data+Extensions.swift in Sources */,
 				119424FE29278BC500391BDA /* Response.swift in Sources */,
+				E27DB1CF2931BD0000C8D654 /* UserDefaults+Extensions.swift in Sources */,
 				119424C9292716EA00391BDA /* MultiPeerManager.swift in Sources */,
 				1194250029278BD700391BDA /* ReceivedEvent.swift in Sources */,
 				1194250429278C4000391BDA /* Data+Decoded.swift in Sources */,
 				119424D5292787FD00391BDA /* String+Identifiable.swift in Sources */,
 				119424F02927896F00391BDA /* Publisher+DidSet.swift in Sources */,
+				E27DB1E42931BD8400C8D654 /* RequestType.swift in Sources */,
 				110C048D29231F0D00DCEDA3 /* FriendsList.swift in Sources */,
 				119424E02927889B00391BDA /* EventsListViewModel.swift in Sources */,
 				119424F829278B8400391BDA /* AppViewModel.swift in Sources */,
 				119425082927929E00391BDA /* String+Empty.swift in Sources */,
+				E27DB1DB2931BD6D00C8D654 /* Message.swift in Sources */,
 				119424E6292788F300391BDA /* String+Prefixing.swift in Sources */,
 				119425152927B8DF00391BDA /* EventResponsePicker.swift in Sources */,
 				1194250E2927A26100391BDA /* EventPublicity.swift in Sources */,
 				119424D22927543100391BDA /* EventDetailView.swift in Sources */,
+				E27DB1D02931BD0000C8D654 /* Codable+Extensions.swift in Sources */,
 				110C04B729231F5C00DCEDA3 /* FriendsManager.swift in Sources */,
 				110C04D1292370F600DCEDA3 /* EventsList.swift in Sources */,
 				1194250A2927962900391BDA /* Optional+Map.swift in Sources */,
 				119425112927A42800391BDA /* SelectFriendsView.swift in Sources */,
 				119424DA2927882B00391BDA /* FriendsListItemView.swift in Sources */,
 				119424E82927890300391BDA /* Data+ToString.swift in Sources */,
+				E27DB1E32931BD8400C8D654 /* HTTPClient.swift in Sources */,
 				119424EE2927895300391BDA /* DebugViewModel.swift in Sources */,
 				1194250229278BEA00391BDA /* Friend.swift in Sources */,
+				E27DB1D12931BD0000C8D654 /* URLSession+Extensions.swift in Sources */,
 				110C04D8292393F000DCEDA3 /* DebugView.swift in Sources */,
 				110C04B92923201D00DCEDA3 /* CryptoManager.swift in Sources */,
 				110C04C2292326DD00DCEDA3 /* EventsManager.swift in Sources */,
+				E27DB1DA2931BD6D00C8D654 /* PushRequest.swift in Sources */,
 				110C04B529231F2900DCEDA3 /* BluetoothManager.swift in Sources */,
+				E27DB1D32931BD0000C8D654 /* SecKey+Extensions.swift in Sources */,
+				E27DB1D42931BD0000C8D654 /* String+Extensions.swift in Sources */,
 				110C04BD292322CD00DCEDA3 /* DefaultsStore.swift in Sources */,
+				E27DB1E12931BD8400C8D654 /* HTTPMethod.swift in Sources */,
+				E27DB1DC2931BD6D00C8D654 /* Device.swift in Sources */,
 				1194250629278C4E00391BDA /* Encodable+Encoded.swift in Sources */,
 				119425132927B8D200391BDA /* EventDetailViewModel.swift in Sources */,
 				119424EC2927893000391BDA /* DebugEvent.swift in Sources */,
 				110C04BC292322CD00DCEDA3 /* UserDefaultable.swift in Sources */,
+				E27DB1E62931BD9A00C8D654 /* PushService.swift in Sources */,
 				119425192927B90700391BDA /* ResponseStatus.swift in Sources */,
 				119424F329278B2000391BDA /* Array+FindByClosure.swift in Sources */,
 				110C04BF2923231A00DCEDA3 /* DefaultsHandling.swift in Sources */,
